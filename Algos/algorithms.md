@@ -26,7 +26,7 @@ The template for solving a fixed window problem involves maintaining two pointer
 The process involves iterating over the array or sequence, adjusting the window as necessary, and performing computations or operations on the elements within the window.  
 Here's the template
 
-```
+```cpp
 fixed_window()
 {
     int low = 0, high = 0, windowsize = k;
@@ -56,7 +56,7 @@ fixed_window()
 **Q->Given an array arr\[\] and an integer K, the task is to calculate the sum of  
 all subarrays of size K.**
 
-```
+```cpp
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -108,7 +108,7 @@ Initialize the window indices: Start by initializing the start and end pointers 
 
 **Adjust the window size:** If the window size exceeds the desired criteria, adjust the window by moving the start pointer. Iterate or loop until the window size matches the desired criteria, and update the window accordingly.
 
-```
+```cpp
 variable_window()
 {
     int start = 0, end = 0;
@@ -165,7 +165,7 @@ variable_window()
 
 **1\. [longest-substring-without-repeating-characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)**
 
-```
+```cpp
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
