@@ -1,4 +1,4 @@
-## Sliding Window:
+# Sliding Window:
 
 **The Sliding Window Technique** is a problem-solving technique that is used to
 **1.Running Average:** Use a sliding window to efficiently calculate the average of a fixed-size window as new elements arrive in a stream of data.
@@ -19,7 +19,7 @@ The main idea behind the sliding window technique is to convert **two nested loo
 
 **Lets discuss How to identify Fixed and variable size Window**
 
-**1.Fixed Window:**
+## **1.Fixed Window:**
 
 In a fixed window problem, **we have a predefined window size that remains constant** throughout the problem-solving process.  
 The template for solving a fixed window problem involves maintaining two pointers, **low and high, that represent the indices of the current window.**  
@@ -30,7 +30,7 @@ Here's the template
 fixed_window()
 {
     int low = 0, high = 0, windowsize = k;
-    while (i < sizeofarray)
+    while (high < sizeofarray)
     {
         // Step 1: Create a window that is one element smaller than the desired window size
         if (high - low + 1 < windowsize)
@@ -51,7 +51,7 @@ fixed_window()
 }
 ```
 
-# Example on above Format
+### Example on above Format
 
 **Q->Given an array arr\[\] and an integer K, the task is to calculate the sum of  
 all subarrays of size K.**
@@ -96,7 +96,7 @@ int main()
 }
 ```
 
-**2 variable window**
+## **2 variable window**
 
 In a variable window problem,**the window size is not fixed and can change dynamically based on certain conditions or criteria**. The template for solving a variable window problem involves maintaining two pointers, start and end, which represent the indices of the current window.
 
@@ -161,7 +161,7 @@ variable_window()
 }
 ```
 
-# Eg on Above format
+### Eg on Above format
 
 **1\. [longest-substring-without-repeating-characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)**
 
@@ -203,7 +203,7 @@ public:
 
 ```
 
-**Questions On Fixed window size**
+## **Questions On Fixed window size**
 
 1. [Substrings-of-size-three-with-distinct-characters](https://leetcode.com/problems/substrings-of-size-three-with-distinct-characters/description/)
 2. [Substring-with-concatenation-of-all-words](https://leetcode.com/problems/substring-with-concatenation-of-all-words/description/)
@@ -215,7 +215,7 @@ public:
 8. [K Radius Subarray Averages](https://leetcode.com/problems/k-radius-subarray-averages/description/)
 9. [Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold](https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/solutions/1772628/Java-or-Sliding-Window-template-or-Explained/)
 
-**Questions On variable window size**
+## **Questions On variable window size**
 
 1. [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
 2. [Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/description/)
@@ -229,9 +229,9 @@ public:
 10. [Arithmetic Slices](https://leetcode.com/problems/arithmetic-slices/description/)
 11. [Subarrays-with-k-different-integers](https://leetcode.com/problems/subarrays-with-k-different-integers/description/)
 
-**If you want to master Two pointer Must do these patterns**
+## **If you want to master Two pointer Must do these patterns**
 
-# 1\. Running from both ends of an array
+### 1\. Running from both ends of an array
 
 ```
 a. 2 Sum problem
@@ -241,7 +241,7 @@ d. Reversing / Swapping
 f. Others
 ```
 
-# 2\. Slow & Fast Pointers
+### 2\. Slow & Fast Pointers
 
 ```
 a.Linked List Operations
@@ -251,7 +251,7 @@ d.Rotation
 e.Remove Duplicate
 ```
 
-# 3\. Running from beginning of 2 arrays / Merging 2 arrays
+### 3\. Running from beginning of 2 arrays / Merging 2 arrays
 
 ```
 a. Sorted arrays
@@ -261,7 +261,7 @@ d. Median Finder
 e. SubString
 ```
 
-# 4\. Split & Merge of an array / Divide & Conquer
+### 4\. Split & Merge of an array / Divide & Conquer
 
 ```
   a. Partition
@@ -273,5 +273,3 @@ These are standard Two pointer pattern discussed above :-> You can follow his ar
 
 **If you stuck in bits I must say follow this**  
 **[All-types-of-patterns-for-bits-manipulations-and-how-to-use-it](https://leetcode.com/discuss/interview-question/3695233/all-types-of-patterns-for-bits-manipulations-and-how-to-use-it)**
-
-# I'd love to hear your thoughts feel free to leave comments or questions .
