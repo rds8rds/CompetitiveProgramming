@@ -79,7 +79,7 @@ while( ri  <  string.size()){
 
 **Eg on Above format**
 
-**[76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/description/)**
+**1. [76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/description/)**
 
 ```cpp
 class Solution {
@@ -130,7 +130,7 @@ public:
 
 ```
 
-**1. [longest-substring-without-repeating-characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)**
+**2. [longest-substring-without-repeating-characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)**
 
 ```cpp
 
@@ -166,6 +166,67 @@ public:
         }
 
         return ans; // Return the length of the longest substring
+    }
+};
+
+```
+
+##### atmost vairable window
+
+number of subarrays for at most k **required elements**
+
+```cpp
+int atmost( vector nums, int k ){
+    int le = ri = 0, res = 0;
+
+    while (ri < nums.size() ){
+        // any update condition
+
+        if( উপরের কন্ডিশন চেক ){
+            // update res = window size ( ri - le + 1)
+            // update window's front ( ri )
+        } else {
+            while( as long as  কন্ডিশন ফলস রিটার্ন করে ){
+                // update windows back( le)
+            }
+            // now true condition so update res = ri - le + 1
+            // update window front for not calculating same ri again
+        }
+    }
+}
+
+```
+
+**run atmost for k and k-1**
+
+**[1248. Count Number of Nice Subarrays](https://leetcode.com/problems/count-number-of-nice-subarrays/description/)**
+
+```cpp
+class Solution {
+public:
+    int atMost(vector<int>& nums, int k ){
+        int le = 0, ri = 0, currOddCnt = 0, res = 0;
+
+        while(ri < nums.size() ){
+            currOddCnt += nums[ri] % 2; // problem specific condition
+
+            if( currOddCnt <= k ){
+                res += ri-le+1; // window size
+                ri++;
+            } else {
+                while( currOddCnt > k){
+                    currOddCnt -= nums[le] % 2;
+                    le++;
+                }
+                res += ri-le + 1;
+                ri++;
+            }
+        }
+        return res;
+    }
+
+    int numberOfSubarrays(vector<int>& nums, int k) {
+       return atMost(nums, k)  - atMost(nums, k-1);
     }
 };
 
