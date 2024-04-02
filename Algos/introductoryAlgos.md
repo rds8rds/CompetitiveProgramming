@@ -8,9 +8,11 @@
 
 ## 2 pointer
 
-### Sliding Window
+## Kadane Algo : get maximum subarray sub of an array
 
-#### Atmost
+### Sliding Window : get the maximum sized array of given condition
+
+#### Atmost : count number of subarray of a given condition
 
 ## Dynamic Programming (DP)
 
@@ -29,3 +31,15 @@
 #### PreOrder, InOrder, PostOrder
 
 ## Bit Manipulation
+
+### Swaping using Bit Manipulation
+
+```cpp
+
+void swap (int& a, int& b){
+    a = a^b;
+    b = a^b;
+    a = a^b;
+    return;
+}
+```

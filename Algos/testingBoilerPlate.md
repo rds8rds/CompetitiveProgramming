@@ -28,11 +28,18 @@ int main(){
 
     // for pair most common are pair.first and pair.second member functions [ also swap() ]
 
+    // for stack : push() but not clear() function available
+
     // for unordered_map: insert(), mp.at() or mp[], size(), clear(), Find();
 
     // for map (ordered map): isert(), mpOrdered.at(), or mpOrdered[], find(), size(), clear(), find();
 
     // for set:
+
+    // for priority_queue we got push(), top()
+
+    // memset : memset(mem,-1, sizeof(mem));
+
 
 
 }

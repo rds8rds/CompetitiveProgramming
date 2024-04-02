@@ -193,6 +193,7 @@ int atmost( vector nums, int k ){
             // update window front for not calculating same ri again
         }
     }
+    return res;
 }
 
 ```
