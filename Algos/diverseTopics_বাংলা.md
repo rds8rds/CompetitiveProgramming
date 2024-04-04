@@ -164,7 +164,7 @@ int main(){
 **Set:** A set is subset of another set if all its elements are contained by that set. This means, neither contiguity nor ordering of elements matter. For instance, the subsets of the set {1, 2, 3} would be {1}, {2}, {3}, {1, 2}, {1, 3}, {2, 3}, {1, 2, 3}, {}.
 
 **Comparison Table**
-| | Subarray | Substring | Subsequence | Subset |
+| property \ Element | Subarray | Substring | Subsequence | Subset |
 |------------------|-----------|-------------|-------------|--------|
 | Contiguous | Yes | Yes | No | No |
 | Elements Ordered | Yes | Yes | Yes | No |
