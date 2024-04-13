@@ -153,22 +153,6 @@ int main(){
 আর হ্যাঁ, ৮\*৮ বোর্ডে ৮ টা কুইনের জন্য টোটাল ৯২ টা সমাধান আছে;
 এই প্রোব্লেম এর আরো অপটিমাইজেশন করা সম্ভব ফলে টোটাল প্রব্লেম এর রানটাইম পুরা অর্ধেক করে নেওয়া যাবে।
 
-## Sub Array, Substring vs Subsequence vs Subset
-
-**Subarray:** A subarray is a contiguous sequence of elements within an array. For instance, the subarrays of the array {1, 2, 1} would be {1}, {2}, {1, 2}, {2, 1}, {1, 2, 1}, {}.
-
-**Substring:** A substring is exactly the same thing as a subarray but in the context of strings. For instance, the substrings of the string "ara" would be "a", "r", "ar", "ra", "ara", "".
-
-**Subsequence:** A subsequence is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements. This means a subsequence is a generalized subarray, where the rule of contiguity does not apply. For instance, the subsequences of the sequence <A, B, C> would be <A>, <B>, <A, B>, <B, C>, <A, C>, <A, B, C>, <>.
-
-**Set:** A set is subset of another set if all its elements are contained by that set. This means, neither contiguity nor ordering of elements matter. For instance, the subsets of the set {1, 2, 3} would be {1}, {2}, {3}, {1, 2}, {1, 3}, {2, 3}, {1, 2, 3}, {}.
-
-**Comparison Table**
-| property \ Element | Subarray | Substring | Subsequence | Subset |
-|------------------|-----------|-------------|-------------|--------|
-| Contiguous | Yes | Yes | No | No |
-| Elements Ordered | Yes | Yes | Yes | No |
-
 ## স্ট্যাক
 
 স্ট্যাক এর খুব জনপ্রিয় ৪ টা সমস্যা হলঃ
