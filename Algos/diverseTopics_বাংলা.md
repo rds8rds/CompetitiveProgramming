@@ -268,5 +268,3 @@ vector<int> nearestSmallerLeft(const vector<int>& arr) {
 }
 
 ```
-
-![example](https://github.com/rds8rds/CompetitiveProgramming/assets/47500104/9e5f5b91-de47-4ccb-b848-d7cf3e9c2768)
