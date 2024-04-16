@@ -164,7 +164,7 @@ int main(){
 
 ধরা যাক আমার কাছের একটা ভেক্টর **A = { 2, 1, 5, 6, 2, 3}** <br>
 
-এর জন্য যদি আমরা ডানের সবচেয়ে ছোট নাম্বার এর ভেক্টর তৈরি করি; সেটা হবে nearestSmallerRight(A) = {1, -1, 2, 2, -1, -1};
+এর জন্য যদি আমরা ডানের সবচেয়ে কাছের ছোট নাম্বার এর ভেক্টর তৈরি করি; সেটা হবে nearestSmallerRight(A) = {1, -1, 2, 2, -1, -1};
 এখানে -1 বলতে বুঝাচ্ছি যে সেই সংখ্যার ডানে সেই সংখ্যার চেয়ে কোনো ছোট সংখ্যা নেই; যেমন 2 এর জন্য আমারা এর ডানে সবচেয়ে কাছে পাই 1 কে, 1 এর জন্য কিন্তু কেউ নেই তাই সেখানে -1, এর পর 5 এর জন্য আমরা পাই 2 কে, 6 এর জন্য 2, 2 এর জন্য কেউ নেই -1, 3 এর জন্য কেউ নেই তাই -1;
 
 কিন্তু আমারা যখন ডানের সবচেয়ে কাছের ছোট নাম্বার খুজি তখন সাধারনত আমারা ভ্যালু না খুজে আমারা খুজি ছোট নাম্বার টার ইন্ডেক্স, এতে অনেক গুলো লাভ আছে; <br>
@@ -209,7 +209,7 @@ vector<int> nearestSmallerRight(const vector<int>& arr) {
 
         // If stack is not empty, the nearest smaller element in right is stack top
         if (!s.empty()) {
-            result[i] = arr[s.top()];
+            result[i] = s.top();
         }
 
         // Push current element's index onto the stack
@@ -237,9 +237,9 @@ vector<int> nearestSmallerLeft(const vector<int>& arr) {
             s.pop();
         }
 
-        // If stack is not empty, the nearest smaller element is the top element of the stack
+        // If stack is not empty, the nearest smaller element in left is the top element of the stack
         if (!s.empty()) {
-            result[i] = arr[s.top()];
+            result[i] = s.top();
         }
 
         // Push current element's index onto the stack
@@ -250,6 +250,66 @@ vector<int> nearestSmallerLeft(const vector<int>& arr) {
 }
 
 ```
+
+এবার আমারা দেখি কিভাবে ডানের সবচেয়ে কাছের বড় নাম্বারটা পেতে পারি, এজন্য আমরা ডান থেকে আবার স্ট্যাক এ নাম্বার পুশ করা শুরু করব, যদি দেখি আগে কোন ছোট নাম্বার আছে ( স্ট্যাকে ) তাইলে সেই নাম্বারটা কারেন্ট নাম্বার এর পরের কোন ছোট নাম্বার এর জন্য কাজে লাগবে না (এমনকি সমান হলেও কিন্তু একই কথা হবে ), কারন কারেন্ট নাম্বার এই তো তার জন্য কাছের বড় নাম্বার হবে, তাই সেটি স্ট্যাক থেকে তুলে দিব, কিন্তু যদি দেখি আগের নাম্বারট কারেন্ট স্ট্যাক থেকে বড় তাইলে কিন্তু রাখা লাগবে কারন এমন হতেই পারে যে কারেন্ট নাম্বার এর পরের নাম্বারটাই কারেন্ট থেকে বড় কিন্তু স্ট্যাকের নাম্বার থেকে ছোট, তাই নাম্বার স্ট্যাক থেকে ফেলে দিলে আমরা পরে সেই নাম্বার এর জন্য বড় নাম্বার খুজে পাব না, আর যদি আমরা কখনো দেখি স্ট্যাক এর কোন নাম্বার আমরা নাম্বার থেকে বড় নাই, [ স্ট্যাক এম্পটি ] সেক্ষেত্রে আমারা বলতে পারি কোন নাম্বার এই বড় নাম্বার স্ট্যাকে নেই, যেকোন ফ্ল্যাগ ভেলু দিয়ে আমারা সেটাকে বুঝাতে পারি ( stack size() or -1 ); সব শেষে আমরা কারেন্ট ভ্যালুকে স্টাকে পুশ করব;
+
+```cpp
+vector<int> nearestLargerRight(const vector<int>& arr) {
+    int n = arr.size();
+    vector<int> result(n, n); // Initialize result vector with n where no valid value is present
+    stack<int> s; // stack to store indices of elements
+
+    // Traverse the array from right to left
+    for (int i = n - 1; i >= 0; --i) {
+        // Pop elements from stack while stack is not empty and
+        // the top element is smaller than or equal to current element
+        while (!s.empty() && arr[s.top()] <= arr[i]) {
+            s.pop();
+        }
+
+        // If stack is not empty, the nearest larger element in right is stack top
+        if (!s.empty()) {
+            result[i] = s.top();
+        }
+
+        // Push current element's index onto the stack
+        s.push(i);
+    }
+
+    return result;
+}
+```
+
+একই ভাবে বামের বড় নাম্বার বের করতে হলে আমরা প্রথম থেকে নাম্বার ট্রাভার্স করা শুরু করব; এবং আমরা স্ট্যাক টপের নাম্বার, কারেন্ট নাম্বার থেকে ছোট হলে বাদ দিব; মূল লজিক আসলে ঠিক আগের মত করেই হবে; শুধু ট্রাভার্সাল হবে বাম থেকে ডানে;
+
+```cpp
+vector<int> nearestSmallerLeft(const vector<int>& arr) {
+    int n = arr.size();
+    vector<int> result(n, -1); // Initialize result vector with -1
+    stack<int> s; // Stack to store indices of elements
+
+    for (int i = 0; i < n; ++i) {
+        // Pop elements from stack while stack is not empty and
+        // the top element is smaller than or equal to current element
+        while (!s.empty() && arr[s.top()] <>= arr[i]) {
+            s.pop();
+        }
+
+        // If stack is not empty, the nearest larger element in left is the top element of the stack
+        if (!s.empty()) {
+            result[i] = s.top();
+        }
+
+        // Push current element's index onto the stack
+        s.push(i);
+    }
+
+    return result;
+}
+
+```
+
+---
 
 ## Sub Array, Substring vs Subsequence vs Subset
 
