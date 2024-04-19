@@ -8,7 +8,37 @@
 
 ## 2 pointer
 
-## Kadane Algo : get maximum subarray sub of an array
+### Dutch National Flag Algorithm ( 3 pointers algo)
+
+```cpp
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int low = 0, mid = 0, high = nums.size() - 1;
+
+        while( mid <= high ){
+            if (nums[mid] == 0){
+                swap(nums[mid], nums[low]);
+                low++, mid++;
+            } else if ( nums[mid] == 1){
+                mid++;
+            } else {
+                swap(nums[mid], nums[high]);
+                high--;
+            }
+        }
+    }
+};
+
+// all 0's are to set before low
+// all 2's are set after high ptr
+// 1's are set in between low to mid
+// when mid crosses high we say our sorting is done
+```
+
+[leetcode 75](https://leetcode.com/problems/sort-colors/description/)
+
+## Kadane Algo : get maximum subarray sum of an array
 
 ```cpp
 // kadane algorithm
