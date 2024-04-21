@@ -141,3 +141,369 @@ int main()
 }
 
 ```
+
+## Decimal to binary conversion or decimanl to binary
+
+### Decimal to Binary hard coding
+
+```cpp
+// clean code
+int decToBinary(int num)
+{
+    int binary = 0, i = 1;
+
+    while(num){
+        int rem = num%2;
+        binary += i*rem;
+        i *= 10;
+        num /= 2;
+    }
+
+    cout<<binary<<endl;
+    return binary;
+}
+```
+
+### Binary to Decimal
+
+```cpp
+
+int binaryToDec(int n) {
+    // Write C++ code here
+    int n, res = 0, currBase = 1;
+    while(n){
+        int rem = n%10;
+        res += rem * currBase;
+        currBase *= 2;
+        n = n/10;
+    }
+
+    cout<< res;
+    return res;
+}
+```
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+    vector<int> vec;
+    int num = 10, binary = 0;
+    string tmp ="";
+
+    while(num){
+        int rem = num%2;
+        // using vector
+        vec.push_back(rem);
+        // using string
+        tmp = to_string(rem) + tmp;
+        num  = num / 2;
+    }
+
+    for(int i = vec.size() - 1; i >= 0; i--){
+        binary *= 10;
+        binary += vec[i];
+    }
+    cout<<binary<<endl;
+    cout<<tmp;
+}
+
+```
+
+## find how may times string a present in string b
+
+```cpp
+// how many times string needle present in string hay
+// test: hay = "aaa" and needle = "aa" output 2;
+int needleInHay( string hay, string needle){
+
+    int hayStart = 0, needleStart = 0;
+    int cnt = 0;
+
+    while( hayStart <= hay.size() - needle.size() ){
+        int a = 0;
+        while( hay[hayStart + a] == needle[needleStart]){
+            a++, needleStart++;
+            if(needleStart == needle.size()){
+                hayStart++; // start checking from next index;
+                needleStart = 0,
+                cnt++;
+
+            }
+        }
+        if(hay[hayStart] != needle[needleStart]) {
+            needleStart = 0;
+            hayStart++;
+        }
+    }
+
+    return cnt;
+}
+```
+
+## Lexigraphically small string
+
+```cpp
+// using kind of default function
+// lexigraphically smaller or not
+int isSmaller( string a, string b){
+    return a < b;
+
+}
+
+```
+
+## date Formatting
+
+```cpp
+//12/09/2023 ==> day: 12, month: 09, year: 2023;
+vector<int> dateFormater( string date){
+    int start = 0;
+    vector<int> res;
+    while( start < date.size() ){
+        int a = 0;
+        while(start + a < date.size() and date[start + a] != '/') a++;
+
+        // stoi() will raise exception if we let 0 sized string to
+        // pass on it
+        if(a > 0){
+            int x = stoi(date.substr(start, a));
+            res.push_back(x);
+
+        }
+
+        // update start
+        start += a==0 ? 1 : a;
+    }
+    return res;
+
+}
+```
+
+## subsequence problem
+
+```cpp
+// subsequence problem
+// check s1 = "bdesh" is a subsequence of s2 = "bangladesh"
+// for this case answer is true;
+
+bool isSubSequence(string s1, string s2){
+    int start1 = 0, start2 = 0;
+    while(start2 < s2.size() ){
+        if(s1[start1] == s2[start2]){
+            start1++, start2++;
+        } else start2++;
+
+        if(start1 == s1.size()) return true;
+    }
+    return false;
+}
+```
+
+## fibonacci Number (iterator)
+
+```cpp
+// fib(0) = 0, fib(1) = 1, n>1 fib(n) = fib(n-1) + fib(n-2);
+int fib( int x ){
+    int a = 0, b = 1, c;
+    if(x == 0) return a;
+    else if( x == 1 ) return b;
+
+    for(int i = 2; i<=x; i++){
+        c = a + b;
+        a = b;
+        b = c;
+    }
+    return c;
+}
+
+```
+
+## sieve algorithm
+
+```cpp
+vector<int> sieve(int n){
+    vector<int> mark,res;
+    mark.resize(n+1, 0);
+    int i, j, limit = sqrt(n) + 2;
+
+    // q is not prime
+    mark[1] = 1;
+    // almost all the evens are not prime
+    for (i = 4; i <= n; i += 2) mark[i] = 1;
+
+    // 2 is prime
+    res.push_back(2);
+    // run loop for only odds
+    for (i = 3; i<= n; i += 2){
+        // if not prime, no need to do "nultiple cutting"
+        if ( not mark[i] ){ // only primes are alowed
+            // i is prime
+            res.push_back(i);
+
+            // if we don't do it, following
+            // i*i may overflow
+
+            if(i <= limit){
+                // loop through all odd multiples of i
+                // greater than i*i bcoz
+                // for h*i where h < i is already
+                // marked when i was equal to h
+
+                for(int j = i*i; j <= n; j += 2*i){
+                    // j += 2*i we olny traverse through
+                    // odd numbers
+                    mark[j] = i;
+                }
+            }
+        }
+    }
+    return res;
+}
+```
+
+```cpp
+for(int i=2;i<=N;i++)
+    if(prime[i])
+        for(int j=i*i;j<=N;j+=i) prime[j]=0;
+```
+
+## yarin's sieve (memory efficient sieve)
+
+https://codeforces.com/blog/entry/68299
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+#define MAXSIEVE 100000000 // All prime numbers up to this
+#define MAXSIEVEHALF (MAXSIEVE/2)
+#define MAXSQRT 5000 // sqrt(MAXSIEVE)/2
+char a[MAXSIEVE/16+2];
+#define isprime(n) (a[(n)>>4]&(1<<(((n)>>1)&7))) // Works when n is odd
+
+
+int main() {
+    int i,j;
+	memset(a,255,sizeof(a));
+	a[0]=0xFE;
+	for(i=1;i<MAXSQRT;i++)
+		if (a[i>>3]&(1<<(i&7)))
+			for(j=i+i+i+1;j<MAXSIEVEHALF;j+=i+i+1)
+				a[j>>3]&=~(1<<(j&7));
+
+    // only odd primes can be generated
+    for(int i = 1; i<100; i += 2 ){
+        if(isprime(i)) cout<<i<<" ";
+    }
+
+}
+
+```
+
+## segmented sieve ()
+
+https://medium.com/%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A7%8B%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A6%BE%E0%A6%AE%E0%A6%BF%E0%A6%82-%E0%A6%AA%E0%A6%BE%E0%A6%A4%E0%A6%BE/segmented-sieve-number-theory-1af0602dba39
+
+```cpp
+typedef long long ll;
+vector < int > primes; /*এখানে primes ভেক্টরে sieve এর মাধ্যমে প্রাইম নাম্বারগুলো জেনারেট করে নেওয়া হয়েছে  */
+void segmentedSieve(ll L, ll R)
+{
+ bool isPrime[R-L+1];
+ for(int i=0 ; i<=R-L+1 ; i++)
+    isPrime[i]=true;
+
+ if(L==1)
+    isPrime[0]=false;
+
+ for(int i=0 ; primes[i]*primes[i]<=R ; i++)
+ {
+    ll curPrime=primes[i];
+    ll base=curPrime*curPrime;
+    if(base<L)
+    {
+       base=((L+curPrime-1)/curPrime)*curPrime;
+    }
+    for(ll j=base ; j<=R ; j+=curPrime)
+    isPrime[j-L]=false;
+ }
+ for(int i=0 ; i<=R-L ; i++)
+ {
+    if(isPrime[i]==true)
+        cout<<L+i<<endl;
+ }
+ cout<<endl;
+}
+```
+
+## prime Factoring
+
+```cpp
+vector<int> primeFactoring( int x )
+{
+    vector<int> res;
+
+    while(x % 2 == 0){
+        x = x/2;
+        res.push_back(2);
+    }
+
+    for(int i = 3; i <= sqrt(x) + 1; i += 2){
+    // next primes are all odd so i = i + 2;
+    // plus one for consistency because sometimes in floating point cal
+    // computer may lose some precission 3.00 may turn int 2.99999
+        while( x % i == 0) {
+            res.push_back(i);
+            x = x/i;
+        }
+    }
+
+    if(x > 2) res.push_back(x);
+
+    return res;
+}
+```
+
+## factors of numbers from 1 to n similar to sieve
+
+```cpp
+vector<vector<int>> factoring( int n )
+{
+    vector<vector<int>>res(n + 1,vector<int>());
+    for(int i = 1; i <= n; i++){
+        for(int j = i; j<= n; j+=i){
+            //cout<<j <<" "<<i<<endl;
+            res[j].push_back(i);
+
+        }
+    }
+    return res;
+}
+```
+
+## NOD (number of divisors )
+
+## SOD (sum of divisors)
+
+## GCD and LCM
+
+```cpp
+int gcd(int x, int y){
+    if(x > y) swap(x,y);
+
+    // x is smaller
+    if(y % x == 0) return x;
+    else return gcd( y % x, x); // ছোট, বড়
+}
+
+int lcm (int x, int y){
+    return (x*y ) / gcd(x, y);
+}
+
+```
+
+## Learn Bitset

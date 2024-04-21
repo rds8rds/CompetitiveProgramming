@@ -2,6 +2,22 @@
 
 ##### string
 
+###### substr(), stoi(), stoll()
+
+```cpp
+
+    string a = "abc", b;
+    b = a.substr(0, 2); // b = ab;
+    a = "123";
+    int x = stoi(a);
+    long long y = stoll(a);
+
+    // stoi() and stoll() will throw exception if input is non-numeric
+    a ="";
+    x = stoi(a); // stoi throws bad input exception
+
+```
+
 ```cpp
 
 // sentence to word converter
