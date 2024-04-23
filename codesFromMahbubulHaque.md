@@ -440,10 +440,27 @@ void segmentedSieve(ll L, ll R)
 }
 ```
 
+## factors of numbers ranging from 1 to n similar to sieve
+
+```cpp
+vector<vector<int>> factoring( int n )
+{
+    vector<vector<int>>res(n + 1,vector<int>());
+    for(int i = 1; i <= n; i++){
+        for(int j = i; j<= n; j+=i){
+            //cout<<j <<" "<<i<<endl;
+            res[j].push_back(i);
+
+        }
+    }
+    return res;
+}
+```
+
 ## prime Factoring
 
 ```cpp
-vector<int> primeFactoring( int x )
+vector<int> primeFactorGen( int x )
 {
     vector<int> res;
 
@@ -468,26 +485,66 @@ vector<int> primeFactoring( int x )
 }
 ```
 
-## factors of numbers from 1 to n similar to sieve
+## Prime factors with their powers in pair
 
 ```cpp
-vector<vector<int>> factoring( int n )
-{
-    vector<vector<int>>res(n + 1,vector<int>());
-    for(int i = 1; i <= n; i++){
-        for(int j = i; j<= n; j+=i){
-            //cout<<j <<" "<<i<<endl;
-            res[j].push_back(i);
+vector<pair<int, int>> primeFactorWithPowerGen(int n){
+    vector<int> primeFactors  = primeFactorGen(n);
 
-        }
-    }
-    return res;
+     vector<pair<int,int>> primeFactorWithPower;
+     for(int it : primeFactors){
+         if(primeFactorWithPower.empty()) primeFactorWithPower.push_back({it, 1});
+         else{
+             if(primeFactorWithPower.back().first == it){
+                 primeFactorWithPower.back().second++;
+             } else {
+                 primeFactorWithPower.push_back({it, 1});
+             }
+         }
+     }
+     return primeFactorWithPower;
 }
+
 ```
 
 ## NOD (number of divisors )
 
+```cpp
+ int genNOD(int n){ // number of divisors
+
+     vector<pair<int, int>> primeFactorWithPower = primeFactorWithPowerGen(n);
+
+     // NOD = (power1 + 1) * (power2 + 1) * (power3 + 1)....;
+     int ret = 1;
+     for(auto it : primeFactorWithPower){
+         ret *= (it.second + 1);
+     }
+     return ret;
+ }
+```
+
 ## SOD (sum of divisors)
+
+```cpp
+int genSOD(int n){ // number of divisors
+
+     vector<pair<int, int>> primeFactorWithPower = primeFactorWithPowerGen(n);
+
+     // SOD = (p^0 + p^1 + p^2 +...+ p^a1) * (q^0 + q^1 + ... + q^a2) +......
+     // here p, q,... is prime factors
+     // a1, a2,... are their respective factors
+     // n = p ^ a1 * q ^ a2 *....;
+     int ret = 1;
+     for(auto it : primeFactorWithPower){
+         int sumForSinglePrimeFactor = 0;
+         for(int i = 0; i <= it.second; i++){
+             sumForSinglePrimeFactor += pow(it.first, i);
+         }
+         ret *= sumForSinglePrimeFactor;
+     }
+     return ret;
+ }
+```
 
 ## GCD and LCM
 
@@ -500,10 +557,25 @@ int gcd(int x, int y){
     else return gcd( y % x, x); // ছোট, বড়
 }
 
+// iterative GCD;
+int genGCD(int a, int b){
+    if( b > a ) swap(a, b);
+    while( a % b != 0){
+        int mod  = a % b; // this mod will be lesser than both a, b
+        a = b;
+        b = mod;
+    }
+    return b;
+}
+
 int lcm (int x, int y){
     return (x*y ) / gcd(x, y);
 }
 
 ```
+
+## Euler's Totient function
+
+সহমৌলিক নাম্বার এর সংখ্যা বের করার ফাংশন। φₙ = n \* (1 - 1/p₁) \* (1 - 1/p₂) \* (1 - 1/p₃) \* (1 - 1/pᵢ) where pᵢ i = 1, 2, 3... are prime factors of n; or n = p<sub>1</sub><sup>a1</sup> p<sub>2</sub><sup>a2</sup> p<sub>3</sub><sup>a3</sup>... p<sub>i</sub><sup>ai</sup>
 
 ## Learn Bitset

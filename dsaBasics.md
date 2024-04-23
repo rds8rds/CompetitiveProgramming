@@ -63,6 +63,8 @@ int main()
 
 ##### vector
 
+###### initialization and copying
+
 ```cpp
 int main(){
     vector<int> vec;
@@ -96,6 +98,22 @@ int main(){
     */
 }
 
+```
+
+###### vector find(), erase()
+
+```cpp
+int main(){
+    vector vec{1,2,4,4,6};
+
+    // finding first occurance of 4;
+    vector<int>::iterator it = find(vec.begin(), vec.end(), 4); // or just auto it =
+
+    // earasing vector.erase( iterator it);
+
+    vec.erase(it);
+    // now vec = {1, 2, 4, 6};
+}
 ```
 
 ```cpp
