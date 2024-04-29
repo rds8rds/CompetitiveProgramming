@@ -320,6 +320,12 @@ int fib( int x ){
     return c;
 }
 
+// recursive fibonacci TLE causion
+int fib2(int x){
+    if(x == 0 or x == 1) return 1;
+    else return fib(n-1) + fib(n-2);
+}
+
 ```
 
 ## sieve algorithm
@@ -576,6 +582,107 @@ int lcm (int x, int y){
 
 ## Euler's Totient function
 
-সহমৌলিক নাম্বার এর সংখ্যা বের করার ফাংশন। φₙ = n \* (1 - 1/p₁) \* (1 - 1/p₂) \* (1 - 1/p₃) \* (1 - 1/pᵢ) where pᵢ i = 1, 2, 3... are prime factors of n; or n = p<sub>1</sub><sup>a1</sup> p<sub>2</sub><sup>a2</sup> p<sub>3</sub><sup>a3</sup>... p<sub>i</sub><sup>ai</sup>
+সহমৌলিক নাম্বার এর সংখ্যা বের করার ফাংশন। φₙ = n \* (1 - 1/p₁) \* (1 - 1/p₂) \* (1 - 1/p₃) \* (1 - 1/pᵢ) where pᵢ i = 1, 2, 3... are prime factors of n; সকল সংখ্যার কমন সহমৌলিক হল ১;
+or n = p<sub>1</sub><sup>a1</sup> p<sub>2</sub><sup>a2</sup> p<sub>3</sub><sup>a3</sup>... p<sub>i</sub><sup>ai</sup>
+
+### sieve Phi
+
+```cpp
+
+int phi[1000006], mark[1000006];
+void seivePhi(int n) {
+    int i, j;
+
+    // initialization
+    for(int i = 1; i <= n; i++) phi[i] = i;
+
+    memset(mark, 0, sizeof(mark)); // 0: prime 1: composite
+    mark[1] = 1;
+
+    for( i = 2; i <= n; i++){
+        // কোনো অপ্টিমাইজেশন করা হল না
+        if(not mark[i]){// prime
+            for(j = i; j<=n; j+=i){
+                mark[j] = 1; // কম্পিজিট নাম্বার গুলোকে কেটে দিলাম
+                phi[j] = phi[j]*(i - 1)/i;
+            }
+        }
+    }
+}
+
+
+```
+
+Totient function for single number:
+
+```cpp
+// totient function for a single number
+int phi(int n){
+    int ret = n;
+    for(int i = 2; i * i <= n; i++){
+        while(n%i == 0){
+            n = n/i;
+        }
+        ret = ret*(i - 1)/i;
+    }
+    if( n > 2){
+        // then n is the last prime number;
+        ret = ret * (n - 1)/n;
+    }
+    return ret;
+}
+```
+
+## BigMod
+
+বড় নাম্বার এর জন্য MOD বের করা, এই আলগরিদম গুলোকে কিন্তু ডিভাইড এন্ড কঙ্কার বলে
+
+```cpp
+//bigMod (a, b, M) means a^b mod M
+// complexity O(log n)
+// recursive + devide and conquer method
+
+int bigMod(int a, int b, int M){
+    if( b == 0) return 1 % M;
+    // a^b mod M = (a^(b/2) mod M) * (a^(b/2) mod M) mod M
+    // if b is odd then
+    //  a^b mod M = (a^(b/2) mod M) * (a^(b/2) mod M) (a mod M) mod M
+    int x = bigMod( a, b/2, M);
+    x = (x*x) % M;
+    if( b % 2 == 1) x = (a*x) % M;
+    return x;
+}
+```
+
+### Recursive bigSum() similar to big mod
+
+জিওমেট্রিক সিরিজ এর জন্য MOD বের করা
+
+```cpp
+// bigSum(a, n, M)
+// return mod of( a^0 + a^1 + a^2 + a^3 + ... + a^(n-1) ) by M
+// complexity O(long n * log n);
+int bigSum (int a, int n, int M){
+
+    //  base cases
+    if (n == 1) return 1 % M;
+    int halfRes, fullRes;
+
+    if(n % 2 == 0){ // total odd number of term
+        halfRes = bigSum(a, n/2, M);
+        fullRes = (halfRes + halfRes + bigMod(a, n-1, M)) % M;
+    } else {
+        halfRes = bigSum(a, n/2 + 1, M);
+        fullRes = (halfRes + (halfRes * bigMod(a, n/2, M)) % M) % M;
+    }
+    return fullRes;
+}
+```
+
+### Recursive bigSum() উপরের সমস্যার জন্য log(n) টাইমে সলুশন বের করা
+
+## Modular Inverse
+
+## Extended GCD
 
 ## Learn Bitset
