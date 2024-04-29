@@ -751,10 +751,45 @@ b. আর যদি M প্রাইম নাম্বার না হয় স
 এখানে ϕ(m) হল অয়লার এর টোসান্ট ফাংশন; [ ১ এর চেয়ে বড় m থেকে ছোটো `কয়টা সংখ্যা` আছে যার সাথে m এর কোনো সাধারন গুননীয়ক নেই ]
 যেমন ϕ(১২) = ৪, এবং সখ্যা গুলো হল ঃ ১, ৫, ৭, ১১; ϕ(m) এর মান ১ থেকে ছোট হতে পারে না; কারন সেখানে ১ ইনক্লুডেড থাকবে;
 
-> so b <sup>-1</sup> mod M = b^M-2^ mod M `if M is prime`
+> so b <sup>-1</sup> mod M = b<sup>M-2</sup> mod M `if M is prime`
 
 > or b <sup>-1</sup> mod M = b<sup>ϕ(m) - 2</sup> mod M `if b, M are co-prime`
 
 ## Extended GCD
+
+```cpp
+
+// returns gcd,
+// x, y point refers a*x + b*y = gcd;
+
+int extendedGCD(int a, int b, int& x, int& y){
+
+    // base case
+    if( a == 0){
+        x = 0, y = 1;
+        return b;
+    }
+
+    int x_, y_;
+    int res = extendedGCD (b%a, a, x_, y_);
+
+    x = y_ - (b/a) * x_;
+    y = x_;
+
+    /*
+    fist itr
+    a * x + b * y = d
+    a * y_ - a * int(b/a) * x_ +  b * x _ = d
+    a * y_ + b%a * x_ =  d
+
+    2nd itr
+    b%a * x_ + a * y_ = d
+
+    first itr == 2nd itr;
+
+    */
+    return res;
+}
+```
 
 ## Learn Bitset
