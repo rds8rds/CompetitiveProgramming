@@ -42,9 +42,10 @@ I need two arrays count and res. Count will store the number of nodes in each su
 We can run the dfs function above for every node and get the solution. This will result in **O(N \* N)** time complexity. But we can do this in **O(N)** time using a technique popularly known as `**re-rooting techinque.**`
 
 The idea is to derive the solution of every node by shifting the root.
+
 ![image](https://github.com/rds8rds/CompetitiveProgramming/assets/47500104/4bb2693f-0e17-4824-ae9d-c64045317c40)
 
-uppose we shift the root from root 0 to 1, what changes can we observe.
+Suppose we shift the root from root 0 to 1, what changes can we observe.
 `count[1] `nodes got 1 unit closer to new root and `n - count[1]` nodes got 1 unit away from the new root.
 So,
 
