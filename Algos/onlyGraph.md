@@ -66,3 +66,47 @@ void dfs2(int i, int n, int p = -1) {
         }
     }
 ```
+
+**\*Summing Both**
+
+```cpp
+class Solution {
+public:
+    vector<int> dist, count, res;
+    vector<vector<int>> adjList;
+    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
+
+        count.resize(n, 0);
+        res.resize(n, 0);
+        adjList.resize(n);
+
+        for(auto edge: edges){
+            adjList[edge[0]].push_back(edge[1]);
+            adjList[edge[1]].push_back(edge[0]);
+        }
+
+        dfs(0, -1);
+        dfsShiftRoot(0, n, -1);
+        return res;
+    }
+    void dfs(int i, int p = -1) {
+        for(auto node : adjList[i]) {
+            if(node == p) continue;
+            dfs(node, i);
+            count[i] += count[node];
+            res[i] += res[node] + count[node];
+        }
+        count[i] += 1;
+    }
+
+    void dfsShiftRoot(int i, int n, int p = -1){
+        for( auto node : adjList[i]){
+            if(node == p) continue;
+            res[node] = res[i] - count[node] + n - count[node];
+            dfsShiftRoot(node, n, i );
+        }
+    }
+};
+
+// good graph exercise
+```
