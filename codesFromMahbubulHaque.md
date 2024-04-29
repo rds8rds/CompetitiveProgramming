@@ -659,29 +659,93 @@ int bigMod(int a, int b, int M){
 জিওমেট্রিক সিরিজ এর জন্য MOD বের করা
 
 ```cpp
-// bigSum(a, n, M)
+// bigSum(a, n, M) n == total terms in series
 // return mod of( a^0 + a^1 + a^2 + a^3 + ... + a^(n-1) ) by M
 // complexity O(long n * log n);
 int bigSum (int a, int n, int M){
 
     //  base cases
     if (n == 1) return 1 % M;
-    int halfRes, fullRes;
 
-    if(n % 2 == 0){ // total odd number of term
-        halfRes = bigSum(a, n/2, M);
-        fullRes = (halfRes + halfRes + bigMod(a, n-1, M)) % M;
+    if(n % 2 == 1){ // odd number of terms
+        return (bigSum(a, n-1, M) + bigMod(a, n-1, M)) % M;
     } else {
-        halfRes = bigSum(a, n/2 + 1, M);
-        fullRes = (halfRes + (halfRes * bigMod(a, n/2, M)) % M) % M;
+        int halfRes, res;
+
+        halfRes = bigSum(a, n/2, M); // even
+        res = (halfRes + (halfRes * bigMod(a, n/2, M)) % M) % M;
+        return res;
     }
-    return fullRes;
 }
 ```
 
 ### Recursive bigSum() উপরের সমস্যার জন্য log(n) টাইমে সলুশন বের করা
 
-## Modular Inverse
+```cpp
+// bigSumV2(a, b, M)
+// a^0 + a^1 + a^2 + a^3 + a^4 +.... a^b
+// if b iis even
+// (a^0 + a^2 + a^4 +...... a^b-2) + a(a^0 + a^2 + a^4 + ... + a^b-2)
+// if odd
+// 1 + a(a^0 + a^1 + .... + a^b-2) => a * bigSumV2(a, b-1, M);
+
+int bigSumV2( int a, int n, int M){
+
+    // base case
+    if ( n == 1 ) return 1 % M;
+
+    int res = 0;
+
+    if(n % 2 == 1) return (1 + a * bigSumV2(a, n-1, M)) % M;
+
+    else {
+        int halfRes;
+        halfRes = bigSumV2(pow(a, 2), n/2, M);
+        return (halfRes + a * halfRes ) % M;
+    }
+}
+
+```
+
+### Home Task
+
+## Modular Inverse ( b^-1 mod M ) বের করা;
+
+মড ইনভার্স এর কন্সেপ্টঃ ধরা যাক আমাদের দুটি সংখ্যার ভাগফল বের করতে হবে, খুব সহজ ব্যাপারই তো মনে হচ্ছে; কিন্তু এখন বিষয় টা যদি এমন হয় আমারা ভাগফলটা অনেক বড় এবং আমারা বড় বড় ডাটা টাইপের ভ্যারিয়াবলেও রাখতে পারছি না, সেক্ষত্রে আমারা চাইলে ভাগফলের মড হিসাব করতে পারি; আর মড জন্য আমাদের ডাটাটাইপের সবচেয়ে বড় নাম্বারটা ব্যাবহার করতে পারি, এখন আমাদেরকে কেউ ভাগ করেতে দিলে আমারা বলে দিব এই নাম্বারটা দিয়ে মড করা আছে আমাদের ভাগফল সে চাইলে তার উত্তরকে মড করে মিলিয়ে নিতে পারে;
+
+কিন্তু ঝামেলা হল; ভাগের জন্য মড অপারেশনটা ভিন্ন ধরনের অন্যা অপারেশনে আমারা জাস্ট অপারেশন করে যখনি আউট অফ বাউন্ড হওয়ার চান্স দেখি আমারা মড করে ফেলি; কিন্তু ভাগের ক্ষেত্রে আমাদের নতুন একটা কন্সেপ্ট এর ধারনা লাগে `inverse mod`
+
+যেমনঃ
+a*b mod M = (a mod M * b \* mod M ) mod M;
+a + b mod M = (a mod M + b mod M ) mod M;
+
+but for division operation:
+
+a / b mod M != (a mod M )/ (b mod M );
+কারন কিন্তু সহজ M যদি b এর সমান হয় তাইলেই তো (a mod M) / 0 হয়ে যাবে; শুন্য দিয়ে ভাগ কি ভয়ানক ব্যাপার  
+আমাদের যেটা করতে হবে সেটা হল ঃ
+
+a / b mod M = a \* (b^-1 mod M) এই b^-1 mod M কেই পড়া হয় মডিউলার ইনভার্স অফ b mod M;
+
+প্রথমেই বলে রাখি মডিউলার ইনভার্স করার জন্য দুটি নাম্বার লাগে; আর যেকোনো দুটি নাম্বার এর কিন্তু মডিউলার ইনভার্স থাকে না;
+`মডিউলার ইনভার্স এক্সিস্ট করার জন্য সংখ্যা দুটিকে হতে হবে কো প্রাইম`
+যেমন ঃ ২, ৫ বা ৩, ১৬ এর মডিউলার ইনভার্স আছে; কিন্তু ২, ১৬ এর কিন্তু নেই;
+
+মডিউলার ইনভার্স দুই ভাবে বের করা শিখব আমরাঃ
+
+১। সূত্র ব্যবহার করে
+২। এক্সটেন্ডেড জি সি ডি ব্যাবহার করে
+
+**সূত্র**
+`b^-1 mod M` এ M যদি মৌলিক সংখ্যা হয় তাইলে `ইনভার্স মডিউলো অফ ( b mod M )` = `b^-1 mod M = b^(m-2) mod M`
+কারন আমারা জানি মৌলিক সংখ্যার ধর্ম অনুযায়ী ঃ
+if M is a prime number then` b^(M - 1) ≡ 1 mod M`; now `b^-1 _ b^(M-1 ) = b^-1 _ 1 mod M` [ product rule for MOD operation ]
+we get `**b^-1 mod M = b^(m-2) mod M**`
+
+NB:` b^(M - 1) ≡ 1 mod M` এ `"≡"` সাইন`congrunce`বোঝাতে ব্যাবহার করা হয়; আর পড়া হয়ঃ left side is a congruent module M of right side; এক্ষেত্রে `b^(M - 1) , 1 `দুটি নাম্বার ই `mod M` এর কনগ্রুয়েন্ট; অর্থাৎ দুই জনকেই M দিয়ে মড করলে একই ভাগশেষ পাওয়া যাবে
+
+আর যদি M প্রাইম নাম্বার না হয় সেক্ষেত্রে যদি b, M কোপ্রাইম হয়; ( কোনো কমন গুননীয়ক না থাকে )
+তবে আমাদের `b^-1 mod M =  b^(ϕ(m) - 2)^ mod M`
 
 ## Extended GCD
 
