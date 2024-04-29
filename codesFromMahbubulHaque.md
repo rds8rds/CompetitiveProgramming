@@ -752,6 +752,7 @@ b. আর যদি M প্রাইম নাম্বার না হয় স
 যেমন ϕ(১২) = ৪, এবং সখ্যা গুলো হল ঃ ১, ৫, ৭, ১১; ϕ(m) এর মান ১ থেকে ছোট হতে পারে না; কারন সেখানে ১ ইনক্লুডেড থাকবে;
 
 > so b <sup>-1</sup> mod M = b^M-2^ mod M `if M is prime`
+
 > or b <sup>-1</sup> mod M = b<sup>ϕ(m) - 2</sup> mod M `if b, M are co-prime`
 
 ## Extended GCD
