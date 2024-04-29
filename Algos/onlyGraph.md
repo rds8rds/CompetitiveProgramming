@@ -1,4 +1,4 @@
-### calculate sum of distance to all node from root node
+### Calculate Sum of Distance to All Nodes from Root Node
 
 ![image](https://github.com/rds8rds/CompetitiveProgramming/assets/47500104/242dd675-1276-4fbd-affa-6c3615cb3467)
 
@@ -9,7 +9,7 @@ This is the recurrence relation we can use to calculate the sum of distances for
 
 ```cpp
 res[0] = res[2] + number of nodes in subtree with root 2
-		+ res[1] + number of nodes in subtree with root 1
+    + res[1] + number of nodes in subtree with root 1
 
 res[0] = 2 + 3 + 1 + 2 = 8
 ```
