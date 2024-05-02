@@ -907,7 +907,7 @@ int ncr_mod_pascalTri(int n, int r, int P){
 ```
 
 এই প্যাস্কেল ট্রাইঙ্গেল থেকেই কিন্তু combination এর একটা প্রোপার্টি অভজার্ভ করা যায়ঃ
-\[ \binom{n}{r} \] = \[ \binom{n-1}{r} \] + \[ \binom{n-1}{r-1} \]
+$\binom{n}{r}$ = $\binom{n-1}{r}$ + $\binom{n-1}{r-1}$
 
 ## Deep dive into modular arithmatics
 
