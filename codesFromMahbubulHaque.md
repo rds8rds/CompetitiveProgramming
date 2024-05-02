@@ -711,6 +711,9 @@ int bigSumV2( int a, int n, int M){
 
 ## Modular Inverse ( b^-1 mod M ) বের করা;
 
+if x = b^-1^ mod, M then b\*x mod M = 1 and 0 <= x < M; [property of modular inveres]
+for example modular inverse of 3 mod 7 is 5; not 12;
+
 মড ইনভার্স এর কন্সেপ্টঃ ধরা যাক আমাদের দুটি সংখ্যার ভাগফল বের করতে হবে, খুব সহজ ব্যাপারই তো মনে হচ্ছে; কিন্তু এখন বিষয় টা যদি এমন হয় আমারা ভাগফলটা অনেক বড় এবং আমারা বড় বড় ডাটা টাইপের ভ্যারিয়াবলেও রাখতে পারছি না, সেক্ষত্রে আমারা চাইলে ভাগফলের মড হিসাব করতে পারি; আর মড জন্য আমাদের ডাটাটাইপের সবচেয়ে বড় নাম্বারটা ব্যাবহার করতে পারি, এখন আমাদেরকে কেউ ভাগ করেতে দিলে আমারা বলে দিব এই নাম্বারটা দিয়ে মড করা আছে আমাদের ভাগফল সে চাইলে তার উত্তরকে মড করে মিলিয়ে নিতে পারে;
 
 কিন্তু ঝামেলা হল; ভাগের জন্য মড অপারেশনটা ভিন্ন ধরনের অন্যা অপারেশনে আমারা জাস্ট অপারেশন করে যখনি আউট অফ বাউন্ড হওয়ার চান্স দেখি আমারা মড করে ফেলি; কিন্তু ভাগের ক্ষেত্রে আমাদের নতুন একটা কন্সেপ্ট এর ধারনা লাগে `inverse mod`
@@ -791,5 +794,164 @@ int extendedGCD(int a, int b, int& x, int& y){
     return res;
 }
 ```
+
+## factorial problem
+
+### ১০০! এর শেষে কটি শূন্য আছে ?
+
+আমাদের ফ্যাক্টরিয়াল বের করার কোনো দরকার নেই!
+
+```cpp
+//number of zeroes in 100!
+// or number of 5 in the prime factoraization of 100!
+// generally number of prime numbe a, in b!'s prime factorization
+
+// number of a = b/a + b/a^2 + b/a^3 +... untill this term gets zero
+
+int number_of_a_int_b_prime_factoriazation( int a, int b){
+    int res = 0;
+    while(b/a){
+        res += b/a;
+        a = a*a;
+    }
+    return res;
+}
+```
+
+### Calculate the Number of Digits in x!
+
+```cpp
+// number of digits in factorial
+// fact(5) = 120 = 1*10^(2.xx);
+// if we take log of (fact(5)) = 2.xx;
+// so floor(2.xx) + 1 = 3; is the answer
+// also
+// log(fact(5)) = log (1*2*3*4*5);
+
+int factorialDigit(int a){
+    double res = 0;
+    for(int i = 1; i <= a; i++){
+        res += log10(i);
+    }
+    return res + 1;
+}
+```
+
+### Efficient Combination: nCr
+
+#### using sequential mul
+
+nCr = n!/((n-r)!\*r!)
+সূত্রটায় সমস্যা হল আমারা খুব সহজেই ফাক্টোরিয়াল এর জন্য ইন্টিজার ওভারফ্লোতে পরে যেতে পারি, ওভারফ্লো এড়াবার একটা উপায় হতে পারে, sequencial multiplication ব্যাবহার করা n-r , r এর মধ্যে যেটা বড় সেটার ফ্যাক্টোরিয়াল দিয়ে n! কে ভাগ করা যেতে পারে; উপরে থাকবে কত গুলো সিকুয়েনশিয়াল ইন্টিজার এর গুনফল; তাকে নিচের ছোট ফাক্টোরিয়াল দিয়ে ভাগ করে ফলাফল পেতে পারি;
+
+```cpp
+//efficient combination
+long long fact(int n){
+    long long res = 1;
+    for(int i = 1; i <= n; i++){
+        res *= i;
+    }
+    return res;
+}
+
+long long sequMul(int a, int b){
+    long long res = 1;
+    for(int i = a; i <= b; i++){
+        res *= i;
+    }
+    return res;
+}
+
+long long effi_ncr(long long n, long long r){
+    if(n-r < r) r = n - r;
+    long long tmp = sequMul(n-r + 1, n); // n-r is bigger than r;
+    return tmp / fact(r);
+}
+```
+
+##### using pascal triangle
+
+প্যাসকেল ট্রাইয়াংগেল দেখে আমারা খুব সহজেই nCr বের করতে পারি, আমাদের যেটা লাগবে সেটা হল আমরা n সাইজের একটা প্যাস্কেল ট্রাইয়াঙ্গেল বানাবো এবং এর শেষ row এর r তম ইন্ডেক্স এ গিয়ে যে নাম্বারটা পাবো সেটাই হল আমাদের উত্তর;
+উদাহরন দিয়ে দেখানো যাকঃ
+
+                ১        ----> ০
+              ১   ১       ---> ১
+            ১   ২   ১      --> ২
+          ১   ৩   ৩  ১    ---> ৩
+
+হিসাব করতে বসি আমাদের যদি বলা হয় 3C2 কত?
+আমারা প্যাস্কেল ট্রাইঙ্গেল এর ৩ নম্বর রো এর ২ নম্ব্র কলাম এ যাব, দেখব আছে ৩; সুতরাং উত্তর ৩;
+
+আরেকটু খেয়াল করলে দেখব আমাদের নির্দিস্ট n এর জন্য পুরো ট্রাইঙ্গেল রাখার দরকার নেই, শুধু লাস্টের ধাপটা রাখলেই চলে; তাহলে লাস্ট এর ধাপ লেখার একটা কোড লিখে ফেললেই চলে; আমারা আসলে DP ব্যাবহার করে খুব সহজেই কোডটা লিখে নিতে পারি;
+
+```cpp
+int ncr_mod_pascalTri(int n, int r, int P){
+    // we only need values up to r to calulate rth value of pascal
+    // triangle so we take r+1 sized array
+    // in normal pascal it should be pascalRow(n+1, 0);
+    vector<int> pascalRow(r+1, 0);
+    // first row of pascal triangle; base case
+    pascalRow[0] = 1;
+    for(int i = 1; i <= n; i++){
+        // we could start from j = i, but ast we don't really need
+        // the values i > j, we don't calculate them;
+        for( int j = min(i,r); j > 0; j--){
+            // নতুন রোএর jth number = আগের রো এর jth number ও j-1th নাম্বার এর যোগফল;
+            pascalRow[j] = pascalRow[j] + pascalRow[j - 1]%P;
+        }
+    }
+
+    return pascalRow[r];
+}
+
+```
+
+এই প্যাস্কেল ট্রাইঙ্গেল থেকেই কিন্তু combination এর একটা প্রোপার্টি অভজার্ভ করা যায়ঃ
+\[ \binom{n}{r} \] = \[ \binom{n-1}{r} \] + \[ \binom{n-1}{r-1} \]
+
+## Deep dive into modular arithmatics
+
+### Fermit's Little Theorem
+
+### Lucas's Theorem
+
+বড় সংখ্যার কম্বিনেশন বের করে মড করতে বলা হলে আমরা খুব সহজেই variable size limit এক্সিট করে ফেলতে পারি, একটা উপায় হতে পারে কম্বিনেশনের মড বের করার ঃ লুকাস থিওরেম; লুকাস থিওরেম বলে, দুটি নাম্বার এর কম্বিনেশনের P মড হবে, সংখ্যা দুটির P বেসড রিপ্রেজেন্টেশনের সেইম পজিশন নাম্বারদের নিজেদের মধ্যেকার কম্বিনেশন মড P এর গুনফল;
+
+to make things clearer; lets say we have to calculate 25 C 8 MOD 13;
+
+so by lucas's theorem we need to reduce n = 36 as 13 based representation
+so 25 = (25/13 ) * 13 + 25 % 13 = 1*13 + 12;
+and for r = 8
+8 = 0\*13 + 8;
+
+---
+
+25 = 1*13 + 12;
+8 `= 0*13 + 8;
+
+now by lucas's theorem,
+36 C 8 mod 13 = (1 C 0 mod 13 )\* (12 C 8 mod 13) = 1 \* (495 mod 13) = 1;
+
+with-out lucus's (25!/(8!\*17!)) mod 13 = 1081575 mod 13 = 1;
+
+```cpp
+
+int ncr_lucus(int n, int r, int P){
+    // base case
+    if(r == 0 ) return 1;
+
+    // computing current ni and ri from P based representation
+    int ni = n % P, ri = r%p;
+    return ncr_lucus(n/p, r/p, P) * generic_ncr(ni, ri, P);
+    // here generic_ncr is any function that can calculate ncr for smaller number and then mod the result with P;
+
+}
+
+
+```
+
+### Similarities between pascal triangle and Combination
+
+### Calculating nCr mod P
 
 ## Learn Bitset

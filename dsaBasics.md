@@ -92,6 +92,7 @@ int main(){
     /*
     ** vector<int>(copy_start_iterator, copy_end_iterator) copy will end when it hits copy_end_iterator
     **
+    ** also string tmp = string(copy_start_iterator, copy_end_iterator) will work
     ** it is very similar with str.substr(copy_start_index, copy_size) function of string
     ** where substr() will generate substring of a string from copy_start_index to a certain sized string;
     **
