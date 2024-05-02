@@ -709,56 +709,9 @@ int bigSumV2( int a, int n, int M){
 
 ### Home Task
 
-## Modular Inverse ( b^-1 mod M ) বের করা;
+## Extended GCD & Modular Inverse
 
-if x = b^-1^ mod, M then b\*x mod M = 1 and 0 <= x < M; [property of modular inveres]
-for example modular inverse of 3 mod 7 is 5; not 12;
-
-মড ইনভার্স এর কন্সেপ্টঃ ধরা যাক আমাদের দুটি সংখ্যার ভাগফল বের করতে হবে, খুব সহজ ব্যাপারই তো মনে হচ্ছে; কিন্তু এখন বিষয় টা যদি এমন হয় আমারা ভাগফলটা অনেক বড় এবং আমারা বড় বড় ডাটা টাইপের ভ্যারিয়াবলেও রাখতে পারছি না, সেক্ষত্রে আমারা চাইলে ভাগফলের মড হিসাব করতে পারি; আর মড জন্য আমাদের ডাটাটাইপের সবচেয়ে বড় নাম্বারটা ব্যাবহার করতে পারি, এখন আমাদেরকে কেউ ভাগ করেতে দিলে আমারা বলে দিব এই নাম্বারটা দিয়ে মড করা আছে আমাদের ভাগফল সে চাইলে তার উত্তরকে মড করে মিলিয়ে নিতে পারে;
-
-কিন্তু ঝামেলা হল; ভাগের জন্য মড অপারেশনটা ভিন্ন ধরনের অন্যা অপারেশনে আমারা জাস্ট অপারেশন করে যখনি আউট অফ বাউন্ড হওয়ার চান্স দেখি আমারা মড করে ফেলি; কিন্তু ভাগের ক্ষেত্রে আমাদের নতুন একটা কন্সেপ্ট এর ধারনা লাগে `inverse mod`
-
-যেমনঃ
-a*b mod M = (a mod M * b \* mod M ) mod M;
-a + b mod M = (a mod M + b mod M ) mod M;
-
-but for division operation:
-
-a / b mod M != (a mod M )/ (b mod M );
-কারন কিন্তু সহজ M যদি b এর সমান হয় তাইলেই তো (a mod M) / 0 হয়ে যাবে; শুন্য দিয়ে ভাগ কি ভয়ানক ব্যাপার  
-আমাদের যেটা করতে হবে সেটা হল ঃ
-
-a / b mod M = a \* (b^-1 mod M) এই b^-1 mod M কেই পড়া হয় মডিউলার ইনভার্স অফ b mod M;
-
-প্রথমেই বলে রাখি মডিউলার ইনভার্স করার জন্য দুটি নাম্বার লাগে; আর যেকোনো দুটি নাম্বার এর কিন্তু মডিউলার ইনভার্স থাকে না;
-`মডিউলার ইনভার্স এক্সিস্ট করার জন্য সংখ্যা দুটিকে হতে হবে কো প্রাইম`
-যেমন ঃ ২, ৫ বা ৩, ১৬ এর মডিউলার ইনভার্স আছে; কিন্তু ২, ১৬ এর কিন্তু নেই;
-
-মডিউলার ইনভার্স দুই ভাবে বের করা শিখব আমরাঃ
-
-- সূত্র ব্যবহার করে
-- এক্সটেন্ডেড জি সি ডি ব্যাবহার করে
-
-**সূত্র:**
-
-`b^-1 mod M` এ M যদি মৌলিক সংখ্যা হয় তাইলে `ইনভার্স মডিউলো অফ ( b mod M )` = `b^-1 mod M = b^(M-2) mod M`
-কারন আমারা জানি মৌলিক সংখ্যার ধর্ম অনুযায়ী ঃ
-if M is a prime number then` b^(M - 1) ≡ 1 mod M`; now `b^-1 _ b^(M-1 ) = b^-1 _ 1 mod M` [ product rule for MOD operation ]
-we get `**b^-1 mod M = b^(M-2) mod M**`
-
-NB:` b^(M - 1) ≡ 1 mod M` এ `"≡"` সাইন`congrunce`বোঝাতে ব্যাবহার করা হয়; আর পড়া হয়ঃ left side is a congruent module M of right side; এক্ষেত্রে `b^(M - 1) , 1 `দুটি নাম্বার ই `mod M` এর কনগ্রুয়েন্ট; অর্থাৎ দুই জনকেই M দিয়ে মড করলে একই ভাগশেষ পাওয়া যাবে বা `b^(M - 1) mod M = 1 mod M`
-
-b. আর যদি M প্রাইম নাম্বার না হয় সেক্ষেত্রে যদি b, M কোপ্রাইম হয়; ( কোনো কমন গুননীয়ক না থাকে )
-তবে আমাদের **b^-1 mod M = b<sup>ϕ(m) - 2</sup> mod M**
-
-এখানে ϕ(m) হল অয়লার এর টোসান্ট ফাংশন; [ ১ এর চেয়ে বড় m থেকে ছোটো `কয়টা সংখ্যা` আছে যার সাথে m এর কোনো সাধারন গুননীয়ক নেই ]
-যেমন ϕ(১২) = ৪, এবং সখ্যা গুলো হল ঃ ১, ৫, ৭, ১১; ϕ(m) এর মান ১ থেকে ছোট হতে পারে না; কারন সেখানে ১ ইনক্লুডেড থাকবে;
-
-> so b <sup>-1</sup> mod M = b<sup>M-2</sup> mod M `if M is prime`
-
-> or b <sup>-1</sup> mod M = b<sup>ϕ(m) - 2</sup> mod M `if b, M are co-prime`
-
-## Extended GCD
+### Extended GCD;
 
 ```cpp
 
@@ -793,6 +746,100 @@ int extendedGCD(int a, int b, int& x, int& y){
     */
     return res;
 }
+```
+
+### Modular Inverse ( b^-1 mod M ) বের করা;
+
+#### Fermat's Little Theorem:
+
+if x = b^-1^ mod, M then b\*x mod M = 1 and 0 <= x < M; [property of modular inveres]
+for example modular inverse of 3 mod 7 is 5; not 12;
+
+মড ইনভার্স এর কন্সেপ্টঃ ধরা যাক আমাদের দুটি সংখ্যার ভাগফল বের করতে হবে, খুব সহজ ব্যাপারই তো মনে হচ্ছে; কিন্তু এখন বিষয় টা যদি এমন হয় আমারা ভাগফলটা অনেক বড় এবং আমারা বড় বড় ডাটা টাইপের ভ্যারিয়াবলেও রাখতে পারছি না, সেক্ষত্রে আমারা চাইলে ভাগফলের মড হিসাব করতে পারি; আর মড জন্য আমাদের ডাটাটাইপের সবচেয়ে বড় নাম্বারটা ব্যাবহার করতে পারি, এখন আমাদেরকে কেউ ভাগ করেতে দিলে আমারা বলে দিব এই নাম্বারটা দিয়ে মড করা আছে আমাদের ভাগফল সে চাইলে তার উত্তরকে মড করে মিলিয়ে নিতে পারে;
+
+কিন্তু ঝামেলা হল; ভাগের জন্য মড অপারেশনটা ভিন্ন ধরনের অন্যা অপারেশনে আমারা জাস্ট অপারেশন করে যখনি আউট অফ বাউন্ড হওয়ার চান্স দেখি আমারা মড করে ফেলি; কিন্তু ভাগের ক্ষেত্রে আমাদের নতুন একটা কন্সেপ্ট এর ধারনা লাগে `inverse mod`
+
+যেমনঃ
+a*b mod M = (a mod M * b \* mod M ) mod M;
+a + b mod M = (a mod M + b mod M ) mod M;
+
+but for division operation:
+
+a / b mod M != (a mod M )/ (b mod M );
+কারন কিন্তু সহজ M যদি b এর সমান হয় তাইলেই তো (a mod M) / 0 হয়ে যাবে; শুন্য দিয়ে ভাগ কি ভয়ানক ব্যাপার  
+আমাদের যেটা করতে হবে সেটা হল ঃ
+
+a / b mod M = a \* (b^-1 mod M) এই b^-1 mod M কেই পড়া হয় মডিউলার ইনভার্স অফ b mod M;
+
+প্রথমেই বলে রাখি মডিউলার ইনভার্স করার জন্য দুটি নাম্বার লাগে; আর যেকোনো দুটি নাম্বার এর কিন্তু মডিউলার ইনভার্স থাকে না;
+`মডিউলার ইনভার্স এক্সিস্ট করার জন্য সংখ্যা দুটিকে হতে হবে কো প্রাইম`
+যেমন ঃ ২, ৫ বা ৩, ১৬ এর মডিউলার ইনভার্স আছে; কিন্তু ২, ১৬ এর কিন্তু নেই;
+
+মডিউলার ইনভার্স দুই ভাবে বের করা শিখব আমরাঃ
+
+- সূত্র ব্যবহার করে (Fermat's Little Theorem)
+- এক্সটেন্ডেড জি সি ডি ব্যাবহার করে
+
+**সূত্র:**
+
+`b^-1 mod M` এ M যদি মৌলিক সংখ্যা হয় তাইলে `ইনভার্স মডিউলো অফ ( b mod M )` = `b^-1 mod M = b^(M-2) mod M`
+কারন আমারা জানি মৌলিক সংখ্যার ধর্ম অনুযায়ী ঃ
+if M is a prime number then` b^(M - 1) ≡ 1 mod M`; now `b^-1 _ b^(M-1 ) = b^-1 _ 1 mod M` [ product rule for MOD operation ]
+we get `**b^-1 mod M = b^(M-2) mod M**`
+
+NB:` b^(M - 1) ≡ 1 mod M` এ `"≡"` সাইন`congrunce`বোঝাতে ব্যাবহার করা হয়; আর পড়া হয়ঃ left side is a congruent module M of right side; এক্ষেত্রে `b^(M - 1) , 1 `দুটি নাম্বার ই `mod M` এর কনগ্রুয়েন্ট; অর্থাৎ দুই জনকেই M দিয়ে মড করলে একই ভাগশেষ পাওয়া যাবে বা `b^(M - 1) mod M = 1 mod M`
+
+b. আর যদি M প্রাইম নাম্বার না হয় সেক্ষেত্রে যদি b, M কোপ্রাইম হয়; ( কোনো কমন গুননীয়ক না থাকে )
+তবে আমাদের **b^-1 mod M = b<sup>ϕ(m) - 1</sup> mod M**
+
+এখানে ϕ(m) হল অয়লার এর টোসান্ট ফাংশন; [ ১ এর চেয়ে বড় m থেকে ছোটো `কয়টা সংখ্যা` আছে যার সাথে m এর কোনো সাধারন গুননীয়ক নেই ]
+যেমন ϕ(১২) = ৪, এবং সখ্যা গুলো হল ঃ ১, ৫, ৭, ১১; ϕ(m) এর মান ১ থেকে ছোট হতে পারে না; কারন সেখানে ১ ইনক্লুডেড থাকবে;
+
+> so b <sup>-1</sup> mod M = b<sup>M-2</sup> mod M `if M is prime`
+
+> or b <sup>-1</sup> mod M = b<sup>ϕ(m)-1</sup> mod M `if b, M are co-prime`
+
+```cpp
+// for larger value of M is this result can easily get out of bound
+// Fermat's Little theorem
+int modular_inverse(int b, int M){
+    int gcd = gcdGen(b, M);
+
+    if( isPrime(M) == true )return pow(b, M-2) mod M;
+
+    if(gcd != 1) return -1;// not co-prime;
+    else{
+        int totient = totientFunc(M);
+        return pow(b, totient -2) mod M;
+    }
+}
+
+```
+
+#### Extended GCD Method
+
+২। দ্বিতীয় পদ্ধতিঃ extended GCD ব্যাবহার করে; আমাদের b <sup> -1 </sup> mod M এর জন্য এমনটা x খুজে বের করতে হবে যেন, b\*x mod M = 1 হয়; বা bx - ym = 1;
+এখন আমরা extended GCD মাধ্যমে দেখতে পারি (x, m) এর gcd 1 কিনা ? আর যদি 1 হয় তাইলে extended gcd আমাদের সেই (x, y) খুজে দিতে পারবে;
+
+কারনঃ ফাংশনে extended_gcd(a,b,x,y) পাঠালে, ax + by = gcd এর জন্য x, y ভ্যালু বের করে দেয়; সেখান থেকে আমরা x টা নিয়ে নিলেই ল্যাটা চুকে গেল;
+
+```cpp
+long int modInverse(long long int b, long long int m)
+{
+
+    long long int x, y; // used in extended GCD algorithm
+    long long int g = gcdExtended(b, m, &x, &y);
+
+    // Return -1 if b and m are not co-prime
+    if (g != 1)
+        return -1;
+
+    // m is added to handle negative x
+    return (x % m + m) % m;
+    // we use mod operation for efficiency's sake
+    // also m is added to handle minus values that can be generated from extended GCD;
+}
+
 ```
 
 ## factorial problem
@@ -839,7 +886,7 @@ int factorialDigit(int a){
 
 ### Efficient Combination: nCr
 
-#### using sequential mul
+#### Using Sequential Multiplication
 
 nCr = n!/((n-r)!\*r!)
 সূত্রটায় সমস্যা হল আমারা খুব সহজেই ফাক্টোরিয়াল এর জন্য ইন্টিজার ওভারফ্লোতে পরে যেতে পারি, ওভারফ্লো এড়াবার একটা উপায় হতে পারে, sequencial multiplication ব্যাবহার করা n-r , r এর মধ্যে যেটা বড় সেটার ফ্যাক্টোরিয়াল দিয়ে n! কে ভাগ করা যেতে পারে; উপরে থাকবে কত গুলো সিকুয়েনশিয়াল ইন্টিজার এর গুনফল; তাকে নিচের ছোট ফাক্টোরিয়াল দিয়ে ভাগ করে ফলাফল পেতে পারি;
@@ -869,7 +916,7 @@ long long effi_ncr(long long n, long long r){
 }
 ```
 
-##### using pascal triangle
+##### Using Pascal Triangle
 
 প্যাসকেল ট্রাইয়াংগেল দেখে আমারা খুব সহজেই nCr বের করতে পারি, আমাদের যেটা লাগবে সেটা হল আমরা n সাইজের একটা প্যাস্কেল ট্রাইয়াঙ্গেল বানাবো এবং এর শেষ row এর r তম ইন্ডেক্স এ গিয়ে যে নাম্বারটা পাবো সেটাই হল আমাদের উত্তর;
 উদাহরন দিয়ে দেখানো যাকঃ
@@ -920,19 +967,20 @@ $\binom{n}{r}$ = $\binom{n-1}{r}$ + $\binom{n-1}{r-1}$
 to make things clearer; lets say we have to calculate 25 C 8 MOD 13;
 
 so by lucas's theorem we need to reduce n = 36 as 13 based representation
-so 25 = (25/13 ) * 13 + 25 % 13 = 1*13 + 12;
+
+> so 25 = (25/13 ) * 13 + 25 % 13 = 1*13 + 12;
+
 and for r = 8
-8 = 0\*13 + 8;
 
----
+> 8 = 0 \* 13 + 8;
 
-25 = 1*13 + 12;
-8 `= 0*13 + 8;
+> 25 = 1*13 + 12;
+> 8 = 0*13 + 8;
 
-now by lucas's theorem,
-36 C 8 mod 13 = (1 C 0 mod 13 )\* (12 C 8 mod 13) = 1 \* (495 mod 13) = 1;
+> now by lucas's theorem,
+> 36 C 8 mod 13 = (1 C 0 mod 13 )\* (12 C 8 mod 13) = 1 \* (495 mod 13) = 1;
 
-with-out lucus's (25!/(8!\*17!)) mod 13 = 1081575 mod 13 = 1;
+> with-out lucus's (25! /( 8! \* 17! )) mod 13 = 1081575 mod 13 = 1;
 
 ```cpp
 
@@ -949,8 +997,6 @@ int ncr_lucus(int n, int r, int P){
 
 
 ```
-
-### Similarities between pascal triangle and Combination
 
 ### Calculating nCr mod P
 
