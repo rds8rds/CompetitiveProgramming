@@ -1136,10 +1136,158 @@ $$\begin{bmatrix}  1 & 1  \\ 1 & 0 \end{bmatrix}^{n-1}$$
 with bigMod [devide and conquer method]
 
 ```cpp
+vector<vector<int>> matMul(const vector<vector<int>>& a, const vector<vector<int>>& b){
+    vector<vector<int>> res(a.size(),vector<int>(b[0].size(),0));
+
+    for(int i = 0; i < res.size(); i++){
+        for(int j = 0; j<res[0].size(); j++){
+            for(int l = 0; l < a[0].size(); l++){
+                res[i][j] += a[i][l] * b[l][j];
+            }
+        }
+    }
+    return res;
+}
+
+
+// same concept as big mod
+// const is used because the some times constant values are used
+// like in base case
+vector<vector<int>> bigMatMul(const vector<vector<int>>& a, int n){
+    if(n == 0) return {{1, 0},{0, 1}}; //identity matrix
+    else if( n % 2 == 0) return matMul(bigMatMul(a, n/2), bigMatMul(a,n/2));
+    else return matMul(bigMatMul(a, n-1), a);
+}
+
+
+// matrix multiplication for fibonacci
+int fibMat(int n){
+    // base case
+    if(n == 0) return 0;
+
+    vector<vector<int>> fibOneZero{{1},{0}};
+    vector<vector<int>> fibIdentity{{1,1},{1,0}};
+    vector<vector<int>> res ={{1, 0},{0, 1}}; // identity mat
+    // this is a tricky handling
+    // for(int i = 1; i<n; i++){
+    //     res = matMul(res, fibIdentity);
+    // }
+
+    res = bigMatMul(fibIdentity, n-1);
+
+    res = matMul(res, fibOneZero);
+
+    // return first elem of first row
+    return res[0][0];
+}
+
 
 ```
 
 #### Stirling Number
+
+## Exclusion Inclusion Principle
+
+## Probabiliy
+
+### Expectation
+
+## Miscellaneous
+
+### Base Convertion
+
+### Big Integer
+
+Add, Sub, MUL operation
+
+```cpp
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+// big Integer
+// values are stored from right to left
+// to right to left --> lsb to msb; [opposite to general convension]
+void setMat(vector<int>& a, int x){
+    int i = 0;
+    while(x){
+        a[i++] = x % 10;
+        x = x / 10;
+    }
+}
+
+// plus
+vector<int> matAdd (const vector<int>& a, const vector<int>& b){
+    vector<int> res(a.size(), 0);
+    int carry = 0, sum = 0;
+    for(int i = 0; i<a.size(); i++){
+        sum = a[i] + b[i] + carry;
+        res[i] = sum % 10;
+        carry = sum / 10;
+    }
+    return res;
+}
+
+// minus
+vector<int> matDiff (const vector<int>& a, const vector<int>& b){
+    vector<int> res(a.size(), 0);
+    int carry = 0, diff = 0;
+    for(int i = 0; i<a.size(); i++){
+        diff = a[i] - b[i] - carry;
+        carry = 0;
+        if(diff < 0){
+            diff = diff + 10;
+            carry++;
+        }
+        res[i] = diff;
+    }
+    return res;
+}
+
+// multiply
+
+vector<int> bigMul(const vector<int>& a, const vector<int>& b){
+    vector<int> res (50, 0);
+    for(int i = 0; i<b.size(); i++){
+        int multiplicant = b[i];
+        int sum = 0, carry = 0;
+        vector<int> tmp (50, 0);
+        for(int j = i; j<tmp.size(); j++){
+            sum = ( multiplicant * a[j-i] ) + carry;
+            tmp[j] = sum % 10;
+            carry = sum / 10;
+        }
+        res = matAdd(res,tmp); // addition
+    }
+    return res;
+}
+
+int getValue( const vector<int>&a){
+    int res = 0, base = 1;
+    for(int i = 0; i < a.size(); i++){
+        res += a[i] * base;
+        base *= 10;
+    }
+    return res;
+}
+
+int main() {
+    vector<int> a(50, 0);
+    vector<int> b(50, 0);
+
+    int x = 3;
+    int y = 11;
+    setMat(a, x);
+    setMat(b, y);
+    vector<int> res (a.size(), 0);
+    res = bigMul(a, b);
+    cout<<getValue(res);
+
+    return 0;
+}
+
+```
 
 ## Learn Bitset
 
