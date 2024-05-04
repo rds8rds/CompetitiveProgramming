@@ -1123,6 +1123,14 @@ Catalan Number C<sub>n</sub> = $\binom{2n}{n}$ - $\binom{2n}{n+1}$
 
 #### Fibonacci
 
+$$\begin{bmatrix}  F_n \\ F_{n-1} \end{bmatrix} = \begin{bmatrix}  1 & 1  \\ 1 & 0 \end{bmatrix}^{n-1}\begin{bmatrix}  F_1  \\ F_0 \end{bmatrix}$$
+
+we also have to calulate the $$\begin{bmatrix}  1 & 1  \\ 1 & 0 \end{bmatrix}^{n-1}$$ with bigMod [devide and conquer method]
+
+```cpp
+
+```
+
 #### Stirling Number
 
 ## Learn Bitset
