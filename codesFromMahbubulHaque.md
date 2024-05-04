@@ -810,7 +810,38 @@ int modular_inverse(int b, int M){
     if(gcd != 1) return -1;// not co-prime;
     else{
         int totient = totientFunc(M);
-        return pow(b, totient -2) mod M;
+        return pow(b, totient -1) mod M;
+    }
+}
+
+```
+
+##### More efficient power funciton by using efficient power function
+
+```cpp
+
+long long modularExponentiation(long long a,long long b)
+    {
+        if(b==0) return 1;
+
+        if(b%2==0)
+        {
+            return modularExponentiation((long long)(a % M * a % M) % M,b/2) % M;
+        }else{
+            return ((long long)a%M*modularExponentiation(a, b-1) % M) % M;
+        }
+
+    }
+
+int modular_inverse(int b, int M){
+    int gcd = gcdGen(b, M);
+
+    if( isPrime(M) == true )return modularExponentiation(b, M-2) mod M;
+
+    if(gcd != 1) return -1;// not co-prime;
+    else{
+        int totient = totientFunc(M);
+        return modularExponentiation(b, totient -1) mod M;
     }
 }
 
@@ -842,7 +873,7 @@ long int modInverse(long long int b, long long int m)
 
 ```
 
-## factorial problem
+## Combinatronics & Factorial Problems
 
 ### ১০০! এর শেষে কটি শূন্য আছে ?
 
@@ -956,6 +987,14 @@ int ncr_mod_pascalTri(int n, int r, int P){
 এই প্যাস্কেল ট্রাইঙ্গেল থেকেই কিন্তু combination এর একটা প্রোপার্টি অভজার্ভ করা যায়ঃ
 $\binom{n}{r}$ = $\binom{n-1}{r}$ + $\binom{n-1}{r-1}$
 
+##### Building Whole Pascal Triangle Or Should I say Top Down DP for Combiantion
+
+ব্যাসিকালি আগের কোডটাই বাট আমরা পুরা ট্রাইঙ্গেলকেই সেভ করে রাখব!
+
+```cpp
+
+```
+
 ## Deep dive into modular arithmatics
 
 ### Fermit's Little Theorem
@@ -999,5 +1038,91 @@ int ncr_lucus(int n, int r, int P){
 ```
 
 ### Calculating nCr mod P
+
+I will add this later;
+Find it on my GeekForGeeks
+
+### Dearrangement Number (D)
+
+n সংখ্যক লোক ও n সংখ্যক রঙের টুপি থাকলে, টুপি আর লোক গুলোকে কতভাবে সাজানো যায় যাতে কোনো লোক তার টুপি না পায় ?
+করা যেতে পারে
+১। ডিয়ারেঞ্জমেট নাম্বার দিয়ে
+২। ইনক্লুশন এক্সক্লুশন প্রিন্সিপাল ব্যাবহার করে (DP)
+
+D <sub>n</sub> = (n-1) _ D<sub>n-2</sub> + (n-1) _ D <sub> n-1 </sub>
+
+Base case: D<sub>0</sub> = 1, D<sub>1</sub> = 1;
+
+```cpp
+// dearrangement number
+int dearrangementNum(int n){
+    if( n == 0) return 1;
+    else if( n == 1) return 0;
+    else return (n-1)*dearrangementNum(n-2) + (n-1)*dearrangementNum(n-1);
+}
+
+```
+
+#### Using Inclusing Exclusion Principal
+
+```cpp
+int fact(int n){
+    int res = 1;
+    for(int i = 1; i <= n; i++){
+        res *= i;
+    }
+    return res;
+}
+
+// dearrangement number
+// by exclusion inclusion principle
+int dearrangementNum(int n){
+    int maxChoice = (1 << n ) - 1;
+    int totalPermutations = fact(n);
+    for( int mask = 1; mask <= maxChoice; mask++){
+        int i = __builtin_popcount(mask); // i = rightPlaceHolders Count;
+        if( i & 1){ //i is odd
+            totalPermutations -= fact(n-i);
+        } else {
+            totalPermutations += fact(n-i);
+        }
+    }
+    return totalPermutations;
+
+}
+```
+
+#### Also using Formula like n!/e
+
+Turnsout if we rounding of n!/e to it's closest number we can find the result
+
+> D <sub>n</sub> = closest Integer (n!/e)
+> if the n!/e's decimal values are greater than .5 then take ceiling value or take floor val;
+
+### Catalan Number
+
+Catalan Number C<sub>n</sub> = $\binom{2n}{n}$ - $\binom{2n}{n+1}$
+
+অনেক ধরনের প্রশ্নের উত্তর আছে কাটালান নাম্বার এর কাছে, যেমন n টি X, এবং n টি Y দিয়ে কতগুলো Dyck word তৈরি করা যায় ? ডাইক ওয়ার্ড হল, সেইসব ওয়ার্ড যার সেকোন প্রিফিক্স ওয়ার্ড এ Y এর সংখ্যা X এর চেয়ে বেশি নয়; ফর n = 3
+উত্তর C<sub>3</sub> = 5 {XXXYYY, XXYYXY, XXYXYY, XYXYXY, XYXXYY}
+
+একদম একই সমস্যা হল n টি "(" ও n টি ")" দিয়ে কত গুলো সঠিক parenthesis expression বানানো যায় ? আগের মতই C<sub>3</sub> = 5;
+
+> C<sub>n</sub> = $\frac{n}{n+1}\binom{2n}{n}$
+
+এরকম আরো কিছু n leaf ওয়ালা কতগুলো full binaray tree আছে [ যেখানে প্রতি নোড এ হয় o বা 2 টি করে চাইল্ড নোড আছে ]
+উত্তর: c<sub>n-1</sub>
+
+### Stirling Number
+
+#### Stirling Number of First Kind
+
+#### Stirling Number of Second Kind
+
+### Matrix Calculation
+
+#### Fibonacci
+
+#### Stirling Number
 
 ## Learn Bitset
