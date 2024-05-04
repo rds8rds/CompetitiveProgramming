@@ -1094,7 +1094,7 @@ int dearrangementNum(int n){
 
 #### Also using Formula like n!/e
 
-Turnsout if we rounding of n!/e to it's closest number we can find the result
+Turnsout if we rounding of $\frac{n!}{e}$ to it's closest number we can find the result
 
 > D <sub>n</sub> = closest Integer (n!/e)
 > if the n!/e's decimal values are greater than .5 then take ceiling value or take floor val;
