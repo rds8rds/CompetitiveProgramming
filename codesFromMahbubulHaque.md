@@ -1065,6 +1065,8 @@ int dearrangementNum(int n){
 
 #### Using Inclusing Exclusion Principal
 
+![Deagrrangement_number](https://github.com/rds8rds/CompetitiveProgramming/assets/47500104/a304c3bc-bbe4-4286-b4e8-42a7ddfc320f)
+
 ```cpp
 int fact(int n){
     int res = 1;
@@ -1288,6 +1290,8 @@ int main() {
 }
 
 ```
+
+## Gaussian Elimination
 
 ## Learn Bitset
 
