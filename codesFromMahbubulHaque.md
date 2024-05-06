@@ -1326,13 +1326,83 @@ x + 2y = 5;
 3x + 2y = 7;
 
 ```math
- $$A =\begin{bmatrix} 1 & 2 \\ 3 & 2 \end{bmatrix},  B = \begin{bmatrix} 5 \\ 7 \end{bmatrix}$$
+ $$A =\begin{bmatrix} 1 & 2 \\ 3 & 2 \end{bmatrix},  B = \begin{bmatrix} 5 \\ 7 \end{bmatrix} X = \begin{bmatrix} x \\ y \end{bmatrix}$$
 ```
 
 এখন এদেরকে সমীকরন আকারে লিখলে দাঁড়াবে,
 
 ```math
 $$A*X = B \: or \begin{bmatrix} 1 & 2 \\ 3 & 2 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 5 \\ 7 \end{bmatrix}$$
+
+
+Gaussian Elemination অ্যালগরিদম এ আমরা n লুপ চালিয়ে, প্রতি লুপে এক একটি ইউনিক সমীকরন ব্যবহার একটি ভারিএবেলকে eliminate করব,
+এলিমিনেট করার জন্য আমরা একটি ভ্যারিএবেলকে বেছে নিব, ধরা যাক x, এবং প্রথম unique equation 0 তম, এবার আমারা সবচেয়ে বড় x এর সহগ
+বের করব, বাদ বাকি সকল row (equation) এর জন্য, এবং সবচেয়ে বড় co-efficient এর রো কে 0 তম রো দিয়ে রিপ্লেস করব, তাহলে আমারা আসলে
+এই রো টা দিয়েই অন্য সকল রো থেকে x এর অংশটাকে বাদ দিব, বাদ দেওয়ার জন্য প্রথমে কারেন্ট রো এর x এর কোফিশিয়েন্ট দিয়ে equation টাকে
+ভাগ করে নিব, এর পর 0 বাদে সকল রো তে গিয়ে সেটার x এর সহগ এর সমান সংখ্যা দিয়ে গুন করে বাদ দিব, এর পরের বার y নিয়ে কাজ করব,
+এবং y এর সবচেয়ে বড় সহগের সমীকরনকে রিপ্লস করব 1 তম সমীকরনের সাথে; একই ভাবে চলতে থাকবে;
+```
+
+```cpp
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+
+void gussian_elem(vector<vector<double>>& mat){
+    int n = mat.size();
+
+    for(int i = 0; i<n; i++){
+        int id = i; // id runs from 0 to n;
+        for(int j = i + 1; j < n; j++){
+            if(fabs(mat[j][i]) > fabs(mat[id][i])) id = j;
+            // id points large possible j
+        }
+
+        if( id != i){
+            for(int k = 0; k <= n; k++){
+                // swaping in ith row
+                swap(mat[i][k], mat[id][k]);
+            }
+        }
+
+        double divisor = mat[i][i];
+        for(int k = 0; k <= n; k++){
+            mat[i][k] = mat[i][k] / divisor;
+        }
+
+        for(int j = 0; j < n; j++){
+            if( j == i ) continue;
+            double factor = mat[j][i]/mat[i][i];
+
+            for(int k = 0; k <= n; k++){
+                mat[j][k] = mat[j][k] - factor * mat[i][k];
+            }
+        }
+    }
+    return;
+}
+
+// no integer returns i guess !
+
+int main() {
+
+    // first 3 column is for equation last column for constants
+    vector<vector<double>> equations{{5,3,2,17},{2,1,1,7},{1,2,1,8}};
+
+    gussian_elem(equations);
+
+    for(auto row : equations){
+        for(auto it : row){
+            cout<<it<<" ";
+        }
+        cout<<endl;
+    }
+
+
+    return 0;
+}
+
 ```
 
 ## Learn Bitset
@@ -1341,7 +1411,8 @@ $$A*X = B \: or \begin{bmatrix} 1 & 2 \\ 3 & 2 \end{bmatrix} \begin{bmatrix} x \
 
 ## Union Find / Disjoint Set Union
 
-ব্যাপারটা হল অনেক গুলো নোডকে কতগুলো সেট এর মধ্যে বিভক্ত করা;
+ব্যাপারটা হল অনেক গুলো নোডকে কতগুলো সেট এর মধ্যে বিভক্ত করা; এবং নোড গুলোর edge এর ইনফরমেশন নিয়ে set গুলো আপডেট করে বলা
+কোন নোড কোন সেট / গ্রাফ / ট্রিতে অবস্থিত ?
 
 ```cpp
 class DisjointSetFind{
@@ -1380,3 +1451,87 @@ class DisjointSetFind{
 ```
 
 ## Square Root Segmentation / Square Root Decomposition Algorithm
+
+এটা আসলে একটা efficiency problem
+say we have n bag to store coins and visitors come and donate coins in those bags, if we want to know total number of coins
+in bags numbered from i to j, how could we get it ?
+
+1. we could count from coins from i to j th bag and then get the total number of coins but this operation has a worst time
+   complexity of O(n); can we improve
+
+2. we can also keep an array like prefix sum to hold the sum of all coins till every bag number; and when asked we just
+   return sum[j] - sum[i-1]; for all bags this is sum[n] - sum[-1] (be catious about handling this -1); this solution gives
+   result O(1) time but when updating this worst time complexity is O(n) also;
+
+so can we do better, yes we can combine both idea;
+we will devide the bags in to k clusters and update bag and cluster upon inserting coins in one of cluster's bag;
+when we will be asked to give us total number of coins from i to j th location, we find in which k, the i belongs say k_i,
+we start counting coins from
+
+> ith loc --- k_i th last loc + k_i+1 coin + k_i+2 coins +......+ k_j-1 coins + k_j start to j th position
+> the first and last calculations comlexity is O(k) and in between calculations takes O(n/k) complexity, so total O(k + n/k);
+
+for k = sqrt(n) this value is minimum; we we take k as sqrt(n); then complexity O(sqrt(n));
+and we say this algorithm as **Square Root Segmentation** algorithm;
+
+```cpp
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> bags{1, 2, 3, 5, 2, 4, 2, 7, 9, 1};
+vector<int> blocks;
+int block_size = 0;
+
+
+void preprocess(){
+    int n = bags.size();
+    block_size = ceil(sqrt(n));
+    blocks.resize( (n/block_size) + 1, 0);
+    for(int i = 0; i < n; i++){
+        blocks[i/block_size] += bags[i];
+    }
+
+}
+
+void insert(int x, int pos){
+    blocks[pos / block_size] += x - bags[pos];
+    bags[pos] = x;
+
+}
+
+int query(int le, int ri){
+    // 3 phase addition
+    int res = 0;
+    int block_le = le/block_size;
+
+    // in first block
+    while(le <= (block_le + 1)*block_size - 1){
+        res += bags[le];
+        le++;
+    }
+    // intermidiatory block
+    while(le + block_size - 1 <= ri){
+        res += blocks[le / block_size];
+        le += block_size;
+    }
+
+    // last block
+    while(le <= ri){
+        res += bags[le];
+        le++;
+    }
+    return res;
+}
+
+
+
+int main() {
+    preprocess();
+    cout<<query(1,9);
+
+
+    return 0;
+}
+
+```
