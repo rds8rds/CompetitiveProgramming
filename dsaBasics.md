@@ -117,6 +117,22 @@ int main(){
 }
 ```
 
+#### Structure
+
+Structure acts as an template for creating variable, it is much like type with more functionality!
+
+Defination:
+
+```cpp
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) :  val(x), next(NULL) {} // struct constructor
+};
+```
+
+#### Miscellaneous
+
 ```cpp
 #include<bits/stdc++.h>
 using namespace std;

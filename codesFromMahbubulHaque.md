@@ -1291,10 +1291,92 @@ int main() {
 
 ```
 
-## Gaussian Elimination
+## Gaussian Elimination O(n^3)
+
+ধরা যাক আমাদের কাছে, কাছে ২ টি সমীকরন আছে যেখানে একঘাত বিশিষ্ট দুটি অজানা চলক x, y আছে (linear equations); আমাদের মান বের করতে হবে;
+আমরা কিভাবে করতে পারি ? যেমনঃ
+3x + y = 10;
+x + y = 3;
+
+আমরা হয়ত বলব কেন আমরা তো এগুলো সল্ভ করার জন্য প্রতিস্থাপন(substitution), অপনয়ন (elemination) বা ব্জ্র গুনন (cross-multiplication)
+পদ্ধতি শিখে এসেছি, সেগুলোর একটা দিয়ে করব, এবার আমারা যদি ২ টি একুয়েশনের পরিবর্তে বেশ বড় সংখ্যা n টি সমীকরন নিয়ে কাজ করি, তখন কিন্তু কাজটা হাতে হাতে করা বেশ ঝামেলার হয়ে যাবে কিন্তু আমরা যদি সঠিকভাবে প্রতিস্থাপন বা অপনয়ন করতে পারি তাইলে কিন্তু বড় হলেও অসম্ভব মোটেও না;
+
+Note:
+Linear Equations -> degree is 1[ max power to unknown variable ]
+Quadratic Equations -> degree is 2 ;
+
+Gaussian Elimination আসলে একটা অপনয়ন পদ্ধতি যা আমারা বড় বড় Lenear Equations সলভ করার জন্য ব্যাবহার করতে পারি; আরেকটা ব্যাপার
+Linera Equations এর কিন্তু অনেক সলভ থাকতে পারে আবার এক্টাও থাকতে পারে আবার এমন হতে পারে কোন সল্ভ নেই;
+
+যেমনঃ
+3x + y = 10;
+x + y = 4;
+solve একটা (x,y) = (3,1)
+
+x + y = 0;
+2x + 2y = 0;
+solve একের অধিক (x,y) = (1,-1),(2,-2)....
+
+2x + y = 5;
+2x + y = 8;
+no solve;
+
+এখন আমারা যখন n সাইজের ইকুয়েশন নিয়ে কাজ করব আমারা ইকুয়েশন গুলোকে matrix এ কনভার্ট করে ফেলব; যেমনঃ
+x + 2y = 5;
+3x + 2y = 7;
+
+```math
+ $$A =\begin{bmatrix} 1 & 2 \\ 3 & 2 \end{bmatrix},  B = \begin{bmatrix} 5 \\ 7 \end{bmatrix}$$
+```
+
+এখন এদেরকে সমীকরন আকারে লিখলে দাঁড়াবে,
+
+```math
+$$A*X = B \: or \begin{bmatrix} 1 & 2 \\ 3 & 2 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 5 \\ 7 \end{bmatrix}$$
+```
 
 ## Learn Bitset
 
+# Chapter 5
+
+## Union Find / Disjoint Set Union
+
+ব্যাপারটা হল অনেক গুলো নোডকে কতগুলো সেট এর মধ্যে বিভক্ত করা;
+
+```cpp
+class DisjointSetFind{
+    private:
+    vector<int> rank;
+    vector<int> parent;
+
+    public:
+    // constructor
+    DisjointSetFind(int size) : parent(size, -1), rank(size, 1){}
+
+    // in this implementatin we don't need make_set;
+
+    /*
+    void make_set(int n){
+        parent[n] = n;
+        rank[n]   = 1;
+    }
+    */
+
+    int find_set(int n){
+        if(parent[n] == -1) return n;
+        else return parent[n] = find_set(parent[n]); //path compression;
+    }
+
+    void union_sets(int a, int b){
+        a = find_set(a);
+        b = find_set(b);
+        if(a == b) return;
+        if(rank[a] < rank[b]) swap(a,b); //union by rank
+        parent[b] = a;
+        rank[a] += rank[b];
+    }
+
+};
 ```
 
-```
+## Square Root Segmentation / Square Root Decomposition Algorithm
