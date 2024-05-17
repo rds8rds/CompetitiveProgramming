@@ -104,7 +104,9 @@ int main(){
 ২। ঘর গুলো নিচের ডান থেকে বামে উপরে উঠলে `row - colmn` কোনাকুনি লাইন টার জন্য নির্দিষ্ট থাকে
 
 > diagonal_axis_1 = row + column = constant
+
 > diagonal_axis_2 = row - column = constant
+
 > we use n + row - column for always postitive value
 
 তাইলে আমরা এই দুটি সূত্র দিয়ে প্রত্যেক মন্ত্রী এর জন্য আমরা তার দুটি কর্ণকে হিসাবের মধ্যে রাখতে পারব
