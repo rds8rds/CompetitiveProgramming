@@ -69,6 +69,9 @@ int main()
 int main(){
     vector<int> vec;
      // for vector we got insert(), push_back(), pop_back(), clear(), resize(), sort(), max_element(), find(), accumulate;
+     // clear() deletes all items of vector and sets its size to zero;
+     // for reusing same vector in different cases
+     // flow: vector initialize -> vec clear() -> vec resize()
 
     // vector initializing technique;
 
@@ -170,7 +173,7 @@ int main(){
 
     // for set:
 
-    // for priority_queue we got push(), top()
+    // for priority_queue we got push(), top(), pop()
 
     // memset : memset(mem,-1, sizeof(mem));
 
