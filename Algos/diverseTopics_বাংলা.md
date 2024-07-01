@@ -330,3 +330,40 @@ vector<int> nearestSmallerLeft(const vector<int>& arr) {
 |------------------|-----------|-------------|-------------|--------|
 | Contiguous | Yes | Yes | No | No |
 | Elements Ordered | Yes | Yes | Yes | No |
+
+## C++ Lamda Function
+
+In C++, lambda functions (also known simply as lambdas) are anonymous functions that can capture variables from their surrounding scope. They are defined using the syntax []() {}
+**Lambda Function Syntax**
+
+```cpp
+auto lambda = [captures](parameters) -> return_type { body };
+```
+
+**Capture Clause**
+The capture clause, denoted by [], specifies which variables from the surrounding scope are accessible within the lambda.
+
+[ ] means no variables are captured.
+[=] captures all variables by value.
+[&] captures all variables by reference.
+[x] captures the variable x by value.
+[&x] captures the variable x by reference.
+[=, &x] captures all variables by value except x, which is captured by reference.
+[&, x] captures all variables by reference except x, which is captured by value.
+
+```cpp
+
+auto add = [](int a, int b){return a + b};
+```
+
+## সেগমেন্ট ট্রি
+
+সেগমেন্ট ট্রি এর কাছাকাছি আরো কিছু ট্রি রয়েছে; যেমন বাইনারি সার্চ ট্রি, বাইনারি ইন্ডেক্সড ট্রি ( ফেনউইক ট্রি ); সেগমেন্ট ট্রির কয়েক টা বৈশিষ্ট নিয়ে আলোচনা করা যাকঃ
+
+১। কোন সীমার মধ্যে কুয়েরি করা যায়ঃ
+a. সীমার সংখ্যা গুলোর যোগফল
+b. সীমার সংখ্যা গুলোর বড় বা ছোট সংখ্যা
+c. সীমার সংখ্যা গুলোকে কোন সংখ্যা দিয়ে যোগ করা
+২। কোন একটি সংখ্যাকে আপডেট করা
+৩। সাধারনত সেগমেন্ট ট্রি দিয়ে যা যা করা যায় স্কয়ার রুট সেগ্মেন্টেশন দিয়েও সেগুলা করা যায় কিন্তু টাইম কমপ্লিক্সিটি Segment Tree জন্য O(log n) আর Square Root Segmentation এর জন্য O(square root(n))
+৪। বাইনারি সার্চ ট্রি এর ইমপ্লিমেন্টেশন সেগমেন্ট ট্রি এর থেকে কঠিন, আবার ফেনউইক ট্রি দিয়ে সেগমেন্ট ট্রি এর কিছু কিছু কাজ করা যায় সেটার ইমপ্লিমেন্টেশন সহজ;

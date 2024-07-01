@@ -3,7 +3,7 @@
 using namespace std;
 vector<int> temp(1000);// used in merge sort
 
-int pivotGenerator(vector<int>& nums, int lo, int hi){ // needed in quickSort
+int pivotSetter(vector<int>& nums, int lo, int hi){ // needed in quickSort
     int pivot = nums[hi];
     // i will set numbers smaller than pivot to left of last i position
     int i, j;
@@ -24,7 +24,7 @@ void quickSort(vector<int>& nums, int lo, int hi ){
     //base case
     if ( lo >= hi ) return;
 
-    int pivotIndex = pivotGenerator(nums, lo, hi);
+    int pivotIndex = pivotSetter(nums, lo, hi);
 
     quickSort(nums, lo, pivotIndex-1);
     quickSort(nums, pivotIndex+1, hi);
