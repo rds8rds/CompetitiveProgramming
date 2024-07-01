@@ -3,19 +3,35 @@
 using namespace std;
 vector<int> temp(1000);// used in merge sort
 
+// int pivotSetter(vector<int>& nums, int lo, int hi){ // needed in quickSort
+//     int pivot = nums[hi];
+//     // i will set numbers smaller than pivot to left of last i position
+//     int i, j;
+//     for(i = lo-1,  j = lo; j < hi; j++){
+//         if(nums[j] < pivot){
+//             i++;
+//             swap(nums[j],nums[i] );
+//         }
+//     }
+//     // place pivot to i+1 pos
+//     swap(nums[i+1], nums[hi]); // nums[hi] is pointing pivot;
+//     return i+1; // the new place for pivot;
+// }
+
+// updated pivot setter; 
 int pivotSetter(vector<int>& nums, int lo, int hi){ // needed in quickSort
     int pivot = nums[hi];
-    // i will set numbers smaller than pivot to left of last i position
+    // smaller number than pivot will be placed on ith position
     int i, j;
-    for(i = lo-1,  j = lo; j < hi; j++){
+    for(i = lo, j = lo; j < hi; j++){
         if(nums[j] < pivot){
-            i++;
             swap(nums[j],nums[i] );
+            i++;
         }
     }
-    // place pivot to i+1 pos
-    swap(nums[i+1], nums[hi]); // nums[hi] is pointing pivot;
-    return i+1; // the new place for pivot;
+    // i the position where i should stand in sorted order 
+    swap(nums[i], nums[hi]); // nums[hi] is pointing pivot;
+    return i; // the new place for pivot;
 }
 
 void quickSort(vector<int>& nums, int lo, int hi ){
