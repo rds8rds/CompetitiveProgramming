@@ -87,7 +87,7 @@ void countingSort(vector<int>& nums){
     /*
             ** অনলি সব নাম্বার পজিটিভ হলেই কাউন্টিং সর্ট করা যায়; এর জন্য আমরা মাক্স নাম্বারটা বের করব এর পর; ম্যাক্স সাইজের একটা ফ্রিকুয়েন্সি আরে বানাবো;
             ** পরে ফ্রেকুয়েন্সি অ্যারে থেকে নাম্বারগুলো ক্রমানুযায়ী বের করে নিব
-    ** TLE O(n+N) যা O(nlogn) থেকে বেশিরভাগ ক্ষেত্রেই কম [ n-> size of array, N-> Range]
+            ** TLE O(n+N) যা O(nlogn) থেকে বেশিরভাগ ক্ষেত্রেই কম [ n-> size of array, N-> Range]
     */
     int maxi = *(max_element(nums.begin(), nums.end()));
     vector<int> range(maxi+1);
@@ -127,10 +127,10 @@ void mergeSort(vector<int>& nums, int lo, int hi ){
     // এখানে আমার হাতে আছে lo, mid, hi
     //এবার জোড়া লাগাই
     for(int i = lo, j = mid+1, k = lo; k <= hi; k++){
-        if     (i == mid + 1)   temp[k] = nums[j++];
-        else if(j == hi  + 1)   temp[k] = nums[i++];
-        else if(nums[i]<nums[j])temp[k] = nums[i++];
-        else if(nums[j]<nums[i])temp[k] = nums[j++];
+        if     (i == mid + 1)    temp[k] = nums[j++];
+        else if(j == hi  + 1)    temp[k] = nums[i++];
+        else if(nums[i]<nums[j]) temp[k] = nums[i++];
+        else if(nums[j]<nums[i]) temp[k] = nums[j++];
     }
 
     // copy sorted numbers from temp to nums
