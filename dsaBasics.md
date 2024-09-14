@@ -170,7 +170,7 @@ int main(){
 
     // for set:
 
-    // for priority_queue we got push(), top()
+    // for priority_queue we got push(), top(), pop()
 
     // memset : memset(mem,-1, sizeof(mem));
 
