@@ -100,8 +100,12 @@ int main(){
 এর পর দাবার row গুলোকে পর্যায় ক্রমে access করব; এবং এক একটি row তে এক একটি করে মন্ত্রী বসাবো; কিন্তু কোন কলামে বসবে এটা নির্ভর করবে নতুন মন্ত্রী যেন কোন ভাবেই পুর্বের কোন মন্ত্রীরকে চেক দিয়ে না ফেলে! এখন প্রশ্ন হল কিভাবে আমরা মন্ত্রীর ইনফুলেনশিয়াল ঘর গুলোকে মার্ক করতে পারি ? একটা মন্ত্রীর ইনফুলেন্স থাকে তার row এবং column, আর তার থেকে কোনাকুনি ঘর গুলোতে;
 দাবা বোর্ডের যেকোন কোনা কুনি ঘর গুলো দুটি সূত্র মেনে চলে;
 
-১। ঘর গুলো নিচের বাম থেকে উপরে ডানে উঠলে row + colmn কোনাকুনি লাইন টার জন্য নির্দিষ্ট থাকে
-২। ঘর গুলো নিচের ডান থেকে বামে উপরে উঠলে row - colmn কোনাকুনি লাইন টার জন্য নির্দিষ্ট থাকে
+১। ঘর গুলো নিচের বাম থেকে উপরে ডানে উঠলে `row + colmn` কোনাকুনি লাইন টার জন্য নির্দিষ্ট থাকে
+২। ঘর গুলো নিচের ডান থেকে বামে উপরে উঠলে `row - colmn` কোনাকুনি লাইন টার জন্য নির্দিষ্ট থাকে
+
+`diagonal_axis_1 = row + column = constant` <br>
+`diagonal_axis_2 = row - column = constant` <br>
+`we use n + row - column for always postitive value`
 
 তাইলে আমরা এই দুটি সূত্র দিয়ে প্রত্যেক মন্ত্রী এর জন্য আমরা তার দুটি কর্ণকে হিসাবের মধ্যে রাখতে পারব
 
@@ -326,3 +330,40 @@ vector<int> nearestSmallerLeft(const vector<int>& arr) {
 |------------------|-----------|-------------|-------------|--------|
 | Contiguous | Yes | Yes | No | No |
 | Elements Ordered | Yes | Yes | Yes | No |
+
+## C++ Lamda Function
+
+In C++, lambda functions (also known simply as lambdas) are anonymous functions that can capture variables from their surrounding scope. They are defined using the syntax []() {}
+**Lambda Function Syntax**
+
+```cpp
+auto lambda = [captures](parameters) -> return_type { body };
+```
+
+**Capture Clause**
+The capture clause, denoted by [], specifies which variables from the surrounding scope are accessible within the lambda.
+
+[ ] means no variables are captured.
+[=] captures all variables by value.
+[&] captures all variables by reference.
+[x] captures the variable x by value.
+[&x] captures the variable x by reference.
+[=, &x] captures all variables by value except x, which is captured by reference.
+[&, x] captures all variables by reference except x, which is captured by value.
+
+```cpp
+
+auto add = [](int a, int b){return a + b};
+```
+
+## সেগমেন্ট ট্রি
+
+সেগমেন্ট ট্রি এর কাছাকাছি আরো কিছু ট্রি রয়েছে; যেমন বাইনারি সার্চ ট্রি, বাইনারি ইন্ডেক্সড ট্রি ( ফেনউইক ট্রি ); সেগমেন্ট ট্রির কয়েক টা বৈশিষ্ট নিয়ে আলোচনা করা যাকঃ
+
+১। কোন সীমার মধ্যে কুয়েরি করা যায়ঃ
+a. সীমার সংখ্যা গুলোর যোগফল
+b. সীমার সংখ্যা গুলোর বড় বা ছোট সংখ্যা
+c. সীমার সংখ্যা গুলোকে কোন সংখ্যা দিয়ে যোগ করা
+২। কোন একটি সংখ্যাকে আপডেট করা
+৩। সাধারনত সেগমেন্ট ট্রি দিয়ে যা যা করা যায় স্কয়ার রুট সেগ্মেন্টেশন দিয়েও সেগুলা করা যায় কিন্তু টাইম কমপ্লিক্সিটি Segment Tree জন্য O(log n) আর Square Root Segmentation এর জন্য O(square root(n))
+৪। বাইনারি সার্চ ট্রি এর ইমপ্লিমেন্টেশন সেগমেন্ট ট্রি এর থেকে কঠিন, আবার ফেনউইক ট্রি দিয়ে সেগমেন্ট ট্রি এর কিছু কিছু কাজ করা যায় সেটার ইমপ্লিমেন্টেশন সহজ;
