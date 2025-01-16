@@ -14,6 +14,7 @@ return sum if cnt % 2 == 0 else sum - 2*lowest_abs;
 
 
 python list is ordered, dynamic, mutable, heterogenous (different different data type)
+
 ```python
 my_list = [1, 2, 3, 4]
 
@@ -34,6 +35,13 @@ my_list.insert(0, 3) #output [3, 2, 3, 4, 5, 6, 8]
 my_list.remove(4) #output [3, 2, 3, ]
 
 # useful functions
+
+# checking if an element is in a list
+
+my_list = [1, 3, 5, 7]
+
+if 5 is in my_list: 
+    return True
 
 ## slicing list[startInd : endIndex + 1]
 my_list_slice = my_list[1:4]   # [2, 3, 4]
@@ -60,6 +68,12 @@ for item in reversed(my_list):
 
 for item in my_list[:: -1]:
     print(item)
+
+# sorting sorted()
+
+sorted_list = sorted(my_list)
+
+reverse_sorted_list = sorted(my_list, reverse = True)
 
 ```
 
@@ -120,7 +134,10 @@ my_dict[key] = value
 
 # Get the value 
 my_dict.get(key); 
-my_dict.setDefault(key, defaultValue) # advancement of Dict().get() 😉😉
+my_dic.get(key, defaultValue) # advancement of Dict().get() 😉😉
+
+# if not in dictionary then create {key defaultValue} pair
+my_dict.setDefault(key, defaultValue) 
 
 
 
@@ -263,5 +280,20 @@ print(set1.issuperset(set2))  # Output: True
 my_set = {1, 2, 3}
 for item in my_set:
     print(item)  # Output: 1, 2, 3 (order may vary)
+
+```
+
+
+### Substring
+
+```python
+# using slicing 
+
+sample = "this is my happy place"
+
+part_of_sample = sample[0: 4] # subString of [0, 4 - 1] --> this
+part_of_sample_2 = sample[ : len(sample)] # start from index 0 to end 
+part_of_sample_3 = sample[6: ] # --> is my happy place
+
 
 ```
