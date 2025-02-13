@@ -297,3 +297,82 @@ part_of_sample_3 = sample[6: ] # --> is my happy place
 
 
 ```
+
+
+### Returning multiple objects with new python fuctional signature: 
+
+```python
+# using touple 
+def concatenate_and_lengths(x: str, y:str) -> touple[int, int]:
+
+# using data class [ need to dig more!]
+@dataclass
+class Lengths:
+    length_x: int
+    length_y: int
+
+def string_lengths(x: str, y:str) -> Lengths:
+    return Lengths(len(x), len(y))
+
+
+```
+
+✅ {} → Dictionary
+✅ set() → Empty Set
+✅ {1, 2, 3} → Set with elements 🚀 [ not dict]
+
+### Sorting in python: 
+
+```python
+
+nums = [2, 1, 3, 4, 5]
+sorted_nums = sorted(nums) // sorted_nums = [1, 2, 3, 4, 5]
+reverse_sorted_nums = sorted(nums, reverse = True)
+
+```
+
+
+### Priority Queue in python 
+
+> there is another heap implementation in python which is not thread safe but faster, `heapq`
+
+There is  priorty queue class in python, which is in queue module
+
+the basic operation are as follows: 
+
+```python
+
+from queue import PriorityQueue 
+
+pq = PriorityQueue() # initialization
+pq2 = PriorityQueue()
+#insert into pq
+pq.put(1)
+pq.put(2)
+pq2.put((5, "student x")) 
+pq2.put((2, "student y"))
+pq2.put((7, "student z"))
+
+"""
+pq 
+-------------------
+|1|
+|2|
+
+pq2
+---------------------
+|(2, "student y")|
+|(5, "student x")|
+|(7, "student z")|
+"""
+# remove element 
+
+x = pq.get() # x = 1, also removes from min-heap
+student_with_smallest_number = pq2.get() # this gets (2, "student y") and removes it 
+
+# size 
+size = pq.qsize()
+
+# is empty 
+bool is_empty = pq.empty() 
+```
